@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IZAC — Suivi Transadis</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg: #0f1117;
+    --surface: #181c27;
+    --surface2: #1e2335;
+    --border: #2a2f45;
+    --text: #e8eaf0;
+    --muted: #6b7280;
+    --accent: #3b82f6;
+    --livré: #22c55e;
+    --livré-bg: rgba(34,197,94,.12);
+    --nonconforme: #f59e0b;
+    --nonconforme-bg: rgba(245,158,11,.12);
+    --anomalie: #ef4444;
+    --anomalie-bg: rgba(239,68,68,.12);
+    --souffrance: #a855f7;
+    --souffrance-bg: rgba(168,85,247,.12);
+    --encours: #64748b;
+    --encours-bg: rgba(100,116,139,.12);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 16px 32px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+  .logo { font-size: 13px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+  .logo span { color: var(--text); }
+  .last-update { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); }
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; padding: 24px 32px 0; }
+  .kpi { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px; display: flex; flex-direction: column; gap: 6px; cursor: pointer; transition: border-color .15s, background .15s; }
+  .kpi:hover, .kpi.active { border-color: var(--accent); }
+  .kpi.active { background: rgba(59,130,246,.07); }
+  .kpi-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+  .kpi-value { font-family: 'DM Mono', monospace; font-size: 28px; font-weight: 700; line-height: 1; }
+  .kpi-sub { font-size: 11px; color: var(--muted); font-family: 'DM Mono', monospace; }
+  .kpi[data-filter="Livré conforme"] .kpi-value { color: var(--livré); }
+  .kpi[data-filter="Livré non conforme"] .kpi-value { color: var(--nonconforme); }
