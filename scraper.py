@@ -21,92 +21,71 @@ async def scrape():
         print("[1/5] Ouverture page connexion...")
         await page.goto(LOGIN_URL, wait_until="networkidle", timeout=30000)
         await page.wait_for_timeout(3000)
-        await page.screenshot(path="debug_1_login.png")
-        print("Screenshot 1 sauvegardé")
 
         print(f"[2/5] Connexion {NOM}...")
-        inputs = await page.query_selector_all('input[type="text"], input[type="password"]')
-        print(f"Inputs trouvés: {len(inputs)}")
-        for i, inp in enumerate(inputs):
-            t = await inp.get_attribute('type')
-            n = await inp.get_attribute('name')
-            print(f"  input[{i}] type={t} name={n}")
-
         await page.fill('input[type="text"]', NOM)
         await page.fill('input[type="password"]', MDP)
-        await page.screenshot(path="debug_2_filled.png")
-
         await page.click('input[value="Valider"], button:has-text("Valider")')
         await page.wait_for_timeout(4000)
-        await page.screenshot(path="debug_3_after_login.png")
-        print("Screenshot 3 sauvegardé - après login")
         print(f"URL après login: {page.url}")
 
-        print("[3/5] Attente page tracking...")
-        await page.wait_for_timeout(3000)
-        await page.screenshot(path="debug_4_tracking.png")
+        print("[3/5] Remplissage dates via JavaScript...")
+        await page.wait_for_timeout(2000)
 
-        # Afficher tous les inputs visibles
-        all_inputs = await page.query_selector_all('input')
-        print(f"Total inputs sur la page: {len(all_inputs)}")
-        for i, inp in enumerate(all_inputs[:10]):
-            t = await inp.get_attribute('type')
-            n = await inp.get_attribute('name')
-            v = await inp.get_attribute('value')
-            print(f"  input[{i}] type={t} name={n} value={v}")
-
-        # Chercher le bouton Recherche
-        btns = await page.query_selector_all('input[type="submit"], button, input[type="button"]')
-        print(f"Boutons trouvés: {len(btns)}")
-        for b in btns[:5]:
-            v = await b.get_attribute('value')
-            t = await b.inner_text() if await b.get_attribute('type') != 'submit' else ''
-            print(f"  bouton: value={v} text={t}")
-
-        # Remplir les dates
         date_debut_str = DATE_DEBUT.strftime(FMT)
         date_fin_str = DATE_FIN.strftime(FMT)
-        print(f"Dates: {date_debut_str} → {date_fin_str}")
+        print(f"Dates: {date_debut_str} -> {date_fin_str}")
 
-        text_inputs = await page.query_selector_all('input[type="text"]')
-        print(f"Inputs text trouvés: {len(text_inputs)}")
-        if len(text_inputs) >= 2:
-            await text_inputs[0].click()
-            await text_inputs[0].fill(date_debut_str)
-            await text_inputs[1].click()
-            await text_inputs[1].fill(date_fin_str)
-            print("Dates remplies")
+        # Remplir les 2 premiers champs texte visibles via JS directement
+        filled = await page.evaluate(f"""
+        () => {{
+            const inputs = Array.from(document.querySelectorAll('input[type="text"]'))
+                .filter(el => {{
+                    const rect = el.getBoundingClientRect();
+                    return rect.width > 0 && rect.height > 0;
+                }});
+            console.log('Inputs visibles:', inputs.length);
+            if (inputs.length >= 2) {{
+                inputs[0].value = '{date_debut_str}';
+                inputs[0].dispatchEvent(new Event('change', {{bubbles: true}}));
+                inputs[0].dispatchEvent(new Event('blur', {{bubbles: true}}));
+                inputs[1].value = '{date_fin_str}';
+                inputs[1].dispatchEvent(new Event('change', {{bubbles: true}}));
+                inputs[1].dispatchEvent(new Event('blur', {{bubbles: true}}));
+                return inputs.length;
+            }}
+            return 0;
+        }}
+        """)
+        print(f"Inputs visibles remplis: {filled}")
+        await page.wait_for_timeout(1000)
 
-        await page.screenshot(path="debug_5_dates.png")
-
-        # Cliquer Recherche
+        print("[4/5] Clic Recherche...")
         try:
-            await page.click('input[value="Recherche"]')
-            print("Bouton Recherche cliqué (input)")
+            await page.click('input[value="Recherche"]', timeout=10000)
+            print("Cliqué via input[value=Recherche]")
         except:
-            try:
-                await page.click('button:has-text("Recherche")')
-                print("Bouton Recherche cliqué (button)")
-            except Exception as e:
-                print(f"Impossible de cliquer Recherche: {e}")
+            await page.evaluate("""
+            () => {
+                const btns = Array.from(document.querySelectorAll('input, button'));
+                const btn = btns.find(b => b.value === 'Recherche' || b.innerText === 'Recherche');
+                if (btn) btn.click();
+            }
+            """)
+            print("Cliqué via JS")
 
-        await page.wait_for_timeout(4000)
-        await page.screenshot(path="debug_6_results.png")
+        await page.wait_for_timeout(5000)
 
-        print("[4/5] Extraction tableau...")
-        html = await page.content()
-        print(f"Taille HTML: {len(html)} chars")
-
+        print("[5/5] Extraction tableau...")
         rows = await page.evaluate("""
         () => {
             const results = [];
             const tables = document.querySelectorAll('table');
-            console.log('Tables trouvées:', tables.length);
             if (!tables.length) return results;
             const table = tables[0];
-            const rows = table.querySelectorAll('tr');
-            for (let i = 1; i < rows.length; i++) {
-                const cells = rows[i].querySelectorAll('td');
+            const trows = table.querySelectorAll('tr');
+            for (let i = 1; i < trows.length; i++) {
+                const cells = trows[i].querySelectorAll('td');
                 if (cells.length < 8) continue;
                 const statutImg = cells[0].querySelector('img');
                 let statut = 'En cours';
@@ -136,9 +115,8 @@ async def scrape():
         """)
 
         await browser.close()
-        print(f"[5/5] {len(rows)} expéditions extraites")
+        print(f"{len(rows)} expéditions extraites")
 
-        # Générer data.json même si vide pour éviter l'erreur git
         output = {
             "lastUpdate": datetime.now().isoformat(),
             "periode": {
