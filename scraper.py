@@ -10,7 +10,7 @@ NOM = os.environ.get("TRANSADIS_NOM", "IZAC")
 MDP = os.environ.get("TRANSADIS_MDP", "")
 
 DATE_FIN = datetime.today()
-DATE_DEBUT = DATE_FIN - timedelta(days=7)
+DATE_DEBUT = DATE_FIN - timedelta(days=183)
 FMT = "%d/%m/%y"
 
 
