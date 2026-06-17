@@ -16,14 +16,13 @@ FMT = "%d/%m/%y"
 DOWNLOAD_PATH = "export_traplus.xlsx"
 
 EXPORT_SELECTORS = [
-    "text=Exporter vers Excel",
     "a:has-text('Exporter vers Excel')",
-    "button:has-text('Exporter vers Excel')",
+    "text=Exporter vers Excel",
+    "a:has-text('Exporter')",
     "[title*='Exporter']",
     "[id*='xport']",
     "[id*='Excel']",
     "img[alt*='xcel']",
-    "a:has-text('Exporter')",
 ]
 
 
@@ -100,7 +99,7 @@ async def scrape():
                 print("Echec total clic recherche: " + str(e2))
 
         print("Attente chargement resultats")
-        await page.wait_for_timeout(5000)
+        await page.wait_for_timeout(6000)
 
         await page.screenshot(path="debug_before_export.png")
         print("Screenshot avant export sauvegarde")
