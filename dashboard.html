@@ -393,7 +393,7 @@ function buildKPIs() {
 }
 
 function kpiBlock(filterKey, label, value, sub) {
-  return '<div class="kpi" data-filter="' + filterKey + '" onclick="filterByStatut(\\'' + filterKey + '\\', this)">' +
+  return '<div class="kpi" data-filter="' + filterKey + '" onclick=\'filterByStatut("' + filterKey + '", this)\'>' +
     '<div class="kpi-label">' + label + '</div>' +
     '<div class="kpi-value">' + value + '</div>' +
     '<div class="kpi-sub">' + sub + '</div>' +
