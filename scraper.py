@@ -203,3 +203,8 @@ async def scrape():
 
         with open("data.json", "w", encoding="utf-8") as f:
             json.dump(output, f, ensure_ascii=False, indent=2)
+        print("data.json genere")
+
+
+if __name__ == "__main__":
+    asyncio.run(scrape())
