@@ -126,6 +126,9 @@ async def scrape():
         print("Valeur Date1 apres remplissage: " + str(val1))
         print("Valeur Date2 apres remplissage: " + str(val2))
 
+        await page.screenshot(path="debug_before_click.png")
+        print("Screenshot avant clic sauvegarde")
+
         print("[4/6] Clic Recherche via ID btn_rch")
         try:
             await page.click('#btn_rch', timeout=10000)
@@ -155,6 +158,9 @@ async def scrape():
             print("Timeout attente resultats: " + str(e))
 
         await page.wait_for_timeout(2000)
+
+        await page.screenshot(path="debug_after_click.png")
+        print("Screenshot apres clic sauvegarde")
 
         print("[5/6] Diagnostic page de resultats")
         diag = await page.evaluate(DIAGNOSTIC_JS)
