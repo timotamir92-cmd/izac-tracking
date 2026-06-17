@@ -8,24 +8,25 @@
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
 
   :root {
-    --bg: #0f1117;
-    --surface: #181c27;
-    --surface2: #1e2335;
-    --border: #2a2f45;
-    --text: #e8eaf0;
-    --muted: #6b7280;
-    --accent: #3b82f6;
+    --bg: #f4f7fb;
+    --surface: #ffffff;
+    --surface2: #eef3fa;
+    --border: #dbe4f0;
+    --text: #1a2942;
+    --muted: #64748b;
+    --accent: #2563eb;
+    --accent-dark: #1d4ed8;
 
-    --ok: #22c55e;
-    --ok-bg: rgba(34,197,94,.12);
-    --warn: #f59e0b;
-    --warn-bg: rgba(245,158,11,.12);
-    --bad: #ef4444;
-    --bad-bg: rgba(239,68,68,.12);
-    --special: #a855f7;
-    --special-bg: rgba(168,85,247,.12);
+    --ok: #16a34a;
+    --ok-bg: #e8f7ee;
+    --warn: #d97706;
+    --warn-bg: #fef3e2;
+    --bad: #dc2626;
+    --bad-bg: #fdeaea;
+    --special: #9333ea;
+    --special-bg: #f5ecfc;
     --neutral: #64748b;
-    --neutral-bg: rgba(100,116,139,.12);
+    --neutral-bg: #eef1f5;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -51,12 +52,12 @@
 
   .logo {
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: .12em;
     text-transform: uppercase;
-    color: var(--muted);
+    color: var(--accent);
   }
-  .logo span { color: var(--text); }
+  .logo span { color: var(--muted); font-weight: 500; }
 
   .last-update {
     font-family: 'DM Mono', monospace;
@@ -80,14 +81,14 @@
     flex-direction: column;
     gap: 6px;
     cursor: pointer;
-    transition: border-color .15s, background .15s;
+    transition: border-color .15s, box-shadow .15s;
   }
-  .kpi:hover, .kpi.active { border-color: var(--accent); }
-  .kpi.active { background: rgba(59,130,246,.07); }
+  .kpi:hover { border-color: var(--accent); box-shadow: 0 2px 8px rgba(37,99,235,.08); }
+  .kpi.active { border-color: var(--accent); background: #eef4ff; box-shadow: 0 2px 8px rgba(37,99,235,.1); }
 
   .kpi-label {
     font-size: 11px;
-    font-weight: 500;
+    font-weight: 600;
     text-transform: uppercase;
     letter-spacing: .08em;
     color: var(--muted);
@@ -98,6 +99,7 @@
     font-size: 28px;
     font-weight: 700;
     line-height: 1;
+    color: var(--text);
   }
 
   .kpi-sub {
@@ -124,7 +126,7 @@
     position: relative;
     flex: 1;
     min-width: 220px;
-    max-width: 380px;
+    max-width: 340px;
   }
 
   .search-wrap svg {
@@ -136,20 +138,57 @@
     pointer-events: none;
   }
 
-  input[type="search"] {
+  input[type="search"], input[type="date"] {
     width: 100%;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 8px;
-    padding: 9px 12px 9px 38px;
+    padding: 9px 12px;
     color: var(--text);
     font-family: 'Inter', sans-serif;
     font-size: 13px;
     outline: none;
     transition: border-color .15s;
   }
-  input[type="search"]:focus { border-color: var(--accent); }
+  input[type="search"] { padding-left: 38px; }
+  input[type="search"]:focus, input[type="date"]:focus { border-color: var(--accent); }
   input[type="search"]::placeholder { color: var(--muted); }
+
+  .date-filter-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 4px 10px;
+  }
+  .date-filter-wrap label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .04em;
+  }
+  .date-filter-wrap input[type="date"] {
+    border: none;
+    padding: 5px 4px;
+    width: 130px;
+  }
+  .date-filter-wrap span { color: var(--muted); font-size: 12px; }
+
+  .clear-dates-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+    transition: border-color .15s, color .15s;
+  }
+  .clear-dates-btn:hover { border-color: var(--accent); color: var(--accent); }
 
   .result-count {
     font-size: 12px;
@@ -167,28 +206,34 @@
     width: 100%;
     border-collapse: collapse;
     font-size: 13px;
+    background: var(--surface);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border);
   }
 
   thead th {
     text-align: left;
-    padding: 10px 14px;
+    padding: 12px 14px;
     font-size: 11px;
-    font-weight: 600;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: .08em;
-    color: var(--muted);
+    letter-spacing: .06em;
+    color: var(--accent-dark);
+    background: var(--surface2);
     border-bottom: 1px solid var(--border);
     white-space: nowrap;
     cursor: pointer;
     user-select: none;
   }
-  thead th:hover { color: var(--text); }
+  thead th:hover { background: #e3ecf9; }
   thead th.sorted { color: var(--accent); }
 
   tbody tr {
     border-bottom: 1px solid var(--border);
     transition: background .1s;
   }
+  tbody tr:last-child { border-bottom: none; }
   tbody tr:hover { background: var(--surface2); }
 
   tbody td {
@@ -240,7 +285,6 @@
     padding: 60px 20px;
     color: var(--muted);
   }
-  .empty svg { margin-bottom: 16px; opacity: .3; }
   .empty p { font-size: 14px; }
 
   .loading {
@@ -272,7 +316,7 @@
     background: var(--surface);
   }
 
-  .periode-bar span { color: var(--text); }
+  .periode-bar span { color: var(--accent-dark); font-weight: 600; }
 </style>
 </head>
 <body>
@@ -295,6 +339,16 @@
     </svg>
     <input type="search" id="searchInput" placeholder="Boutique, ville, recepisse..." oninput="applyFilters()">
   </div>
+
+  <div class="date-filter-wrap">
+    <label>Du</label>
+    <input type="date" id="dateFrom" oninput="applyFilters()">
+    <span>au</span>
+    <input type="date" id="dateTo" oninput="applyFilters()">
+  </div>
+
+  <button class="clear-dates-btn" onclick="clearDates()">Effacer les dates</button>
+
   <span class="result-count" id="resultCount"></span>
 </div>
 
@@ -325,6 +379,7 @@ var allData = [];
 var activeFilter = 'all';
 var sortCol = 'dateExpedition';
 var sortAsc = false;
+var dataYear = new Date().getFullYear();
 
 function statutToKey(statut) {
   if (statut === 'Livre conforme') return 'ok';
@@ -332,6 +387,17 @@ function statutToKey(statut) {
   if (statut === 'Anomalie') return 'bad';
   if (statut === 'Souffrance') return 'special';
   return 'neutral';
+}
+
+function parseDDMM(str) {
+  if (!str) return null;
+  var firstPart = str.split('\n')[0].trim();
+  var bits = firstPart.split('/');
+  if (bits.length !== 2) return null;
+  var day = parseInt(bits[0], 10);
+  var month = parseInt(bits[1], 10);
+  if (isNaN(day) || isNaN(month)) return null;
+  return new Date(dataYear, month - 1, day);
 }
 
 function loadData() {
@@ -344,13 +410,14 @@ function loadData() {
       allData = json.expeditions || [];
 
       var dt = new Date(json.lastUpdate);
+      dataYear = dt.getFullYear();
       var dateStr = dt.toLocaleDateString('fr-FR');
       var timeStr = dt.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'});
       document.getElementById('lastUpdate').textContent = 'Mis a jour le ' + dateStr + ' a ' + timeStr;
 
       var periode = json.periode || {};
       document.getElementById('periodeBar').innerHTML =
-        'Periode : <span>' + (periode.debut || '') + '</span> -> <span>' + (periode.fin || '') + '</span> ... <span>' + (json.total || 0) + '</span> expeditions au total';
+        'Periode disponible : <span>' + (periode.debut || '') + '</span> -> <span>' + (periode.fin || '') + '</span> &middot; <span>' + (json.total || 0) + '</span> expeditions au total';
 
       buildKPIs();
       applyFilters();
@@ -413,8 +480,19 @@ function filterByStatut(filterKey, el) {
   applyFilters();
 }
 
+function clearDates() {
+  document.getElementById('dateFrom').value = '';
+  document.getElementById('dateTo').value = '';
+  applyFilters();
+}
+
 function applyFilters() {
   var q = document.getElementById('searchInput').value.toLowerCase();
+  var dateFromStr = document.getElementById('dateFrom').value;
+  var dateToStr = document.getElementById('dateTo').value;
+  var dateFrom = dateFromStr ? new Date(dateFromStr) : null;
+  var dateTo = dateToStr ? new Date(dateToStr) : null;
+
   var filtered = allData;
 
   if (activeFilter !== 'all') {
@@ -430,6 +508,16 @@ function applyFilters() {
              (r.recepisse || '').toLowerCase().indexOf(q) !== -1 ||
              (r.votreReference || '').toLowerCase().indexOf(q) !== -1 ||
              (r.dept || '').toLowerCase().indexOf(q) !== -1;
+    });
+  }
+
+  if (dateFrom || dateTo) {
+    filtered = filtered.filter(function(r) {
+      var d = parseDDMM(r.dateExpedition);
+      if (!d) return false;
+      if (dateFrom && d < dateFrom) return false;
+      if (dateTo && d > dateTo) return false;
+      return true;
     });
   }
 
