@@ -14,50 +14,6 @@ DATE_DEBUT = DATE_FIN - timedelta(days=7)
 FMT = "%d/%m/%y"
 
 
-FILL_DATES_JS = """
-(args) => {
-    const debut = args[0];
-    const fin = args[1];
-    const inputs = Array.from(document.querySelectorAll('input[type="text"]'))
-        .filter(el => {
-            const rect = el.getBoundingClientRect();
-            return rect.width > 0 && rect.height > 0;
-        });
-    if (inputs.length >= 2) {
-        inputs[0].value = debut;
-        inputs[0].dispatchEvent(new Event('change', {bubbles: true}));
-        inputs[0].dispatchEvent(new Event('blur', {bubbles: true}));
-        inputs[1].value = fin;
-        inputs[1].dispatchEvent(new Event('change', {bubbles: true}));
-        inputs[1].dispatchEvent(new Event('blur', {bubbles: true}));
-        return inputs.length;
-    }
-    return 0;
-}
-"""
-
-SELECT_TOUTES_JS = """
-() => {
-    const labels = Array.from(document.querySelectorAll('label'));
-    const toutesLabel = labels.find(l => l.innerText.includes('Toutes'));
-    if (toutesLabel) {
-        const forId = toutesLabel.getAttribute('for');
-        if (forId) {
-            const radio = document.getElementById(forId);
-            if (radio) radio.click();
-        }
-    }
-}
-"""
-
-CLICK_RECHERCHE_JS = """
-() => {
-    const btns = Array.from(document.querySelectorAll('input, button'));
-    const btn = btns.find(b => b.value === 'Recherche' || b.innerText === 'Recherche');
-    if (btn) btn.click();
-}
-"""
-
 DIAGNOSTIC_JS = """
 () => {
     const tables = document.querySelectorAll('table');
@@ -68,7 +24,7 @@ DIAGNOSTIC_JS = """
     return {
         nbTables: tables.length,
         tablesInfo: info,
-        bodyTextSample: document.body.innerText.substring(0, 500)
+        bodyTextSample: document.body.innerText.substring(0, 800)
     };
 }
 """
@@ -134,56 +90,38 @@ async def scrape():
         await page.wait_for_timeout(4000)
         print(f"URL après login: {page.url}")
 
-        print("[3/6] Remplissage dates...")
-        await page.wait_for_timeout(2000)
+        print("[3/6] Remplissage dates via ID précis...")
+        await page.wait_for_selector('#Date1', timeout=15000)
+        await page.wait_for_timeout(1000)
 
         date_debut_str = DATE_DEBUT.strftime(FMT)
         date_fin_str = DATE_FIN.strftime(FMT)
         print(f"Dates: {date_debut_str} -> {date_fin_str}")
 
-        filled = await page.evaluate(FILL_DATES_JS, [date_debut_str, date_fin_str])
-        print(f"Inputs visibles remplis: {filled}")
+        date1 = await page.query_selector('#Date1')
+        date2 = await page.query_selector('#Date2')
+
+        if date1:
+            await date1.click()
+            await date1.fill(date_debut_str)
+            await date1.dispatch_event('change')
+            await date1.dispatch_event('blur')
+            print("Date1 rempli")
+        else:
+            print("Date1 introuvable !")
+
+        if date2:
+            await date2.click()
+            await date2.fill(date_fin_str)
+            await date2.dispatch_event('change')
+            await date2.dispatch_event('blur')
+            print("Date2 rempli")
+        else:
+            print("Date2 introuvable !")
+
         await page.wait_for_timeout(1000)
 
-        await page.evaluate(SELECT_TOUTES_JS)
-
-        print("[4/6] Clic Recherche...")
-        try:
-            await page.click('input[value="Recherche"]', timeout=10000)
-            print("Cliqué via input[value=Recherche]")
-        except Exception as e:
-            print(f"Echec clic direct: {e}")
-            await page.evaluate(CLICK_RECHERCHE_JS)
-            print("Cliqué via JS")
-
-        await page.wait_for_timeout(6000)
-
-        print("[5/6] Diagnostic page de résultats...")
-        diag = await page.evaluate(DIAGNOSTIC_JS)
-        print(f"Nb tables trouvées: {diag['nbTables']}")
-        print(f"Info tables: {diag['tablesInfo']}")
-        print(f"Extrait texte page: {diag['bodyTextSample']}")
-
-        print("[6/6] Extraction tableau...")
-        rows = await page.evaluate(EXTRACT_ROWS_JS)
-
-        await browser.close()
-        print(f"{len(rows)} expéditions extraites")
-
-        output = {
-            "lastUpdate": datetime.now().isoformat(),
-            "periode": {
-                "debut": DATE_DEBUT.strftime("%d/%m/%Y"),
-                "fin": DATE_FIN.strftime("%d/%m/%Y")
-            },
-            "total": len(rows),
-            "expeditions": rows
-        }
-
-        with open("data.json", "w", encoding="utf-8") as f:
-            json.dump(output, f, ensure_ascii=False, indent=2)
-        print("✅ data.json généré")
-
-
-if __name__ == "__main__":
-    asyncio.run(scrape())
+        val1 = await page.eval_on_selector('#Date1', 'el => el.value') if date1 else None
+        val2 = await page.eval_on_selector('#Date2', 'el => el.value') if date2 else None
+        print(f"Valeur Date1 après remplissage: {val1}")
+        print(f"Valeur Date2 après remplissage:
