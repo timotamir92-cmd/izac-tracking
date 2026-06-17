@@ -10,7 +10,7 @@ NOM = os.environ.get("TRANSADIS_NOM", "IZAC")
 MDP = os.environ.get("TRANSADIS_MDP", "")
 
 DATE_FIN = datetime.today()
-DATE_DEBUT = DATE_FIN - timedelta(days=90)
+DATE_DEBUT = DATE_FIN - timedelta(days=30)
 FMT = "%d/%m/%y"
 
 
@@ -177,7 +177,6 @@ async def scrape():
 
         print("Attente chargement resultats")
         await page.wait_for_timeout(4000)
-
         await page.wait_for_timeout(2000)
 
         await page.screenshot(path="debug_after_click.png")
@@ -189,6 +188,35 @@ async def scrape():
         print("Grids info: " + str(diag['gridsInfo']))
         print("Nb elements row-like: " + str(diag['nbRowLike']))
         print("Rows info: " + str(diag['rowsInfo']))
+
+        print("Scroll pour charger toutes les lignes du grid virtualise")
+        prev_count = -1
+        stable_rounds = 0
+        max_rounds = 60
+        for round_i in range(max_rounds):
+            cur_count = await page.evaluate(
+                "() => { const g = document.getElementById('ECRSFL'); return g ? g.querySelectorAll('.cell').length : 0; }"
+            )
+            if cur_count == prev_count:
+                stable_rounds += 1
+            else:
+                stable_rounds = 0
+            prev_count = cur_count
+
+            if stable_rounds >= 3:
+                print("Stable apres " + str(round_i) + " scrolls, " + str(cur_count) + " cellules")
+                break
+
+            await page.evaluate(
+                "() => { const g = document.getElementById('ECRSFL'); "
+                "const scrollable = g ? (g.querySelector('[class*=scroll]') || g) : null; "
+                "if (scrollable) scrollable.scrollTop = scrollable.scrollHeight; "
+                "window.scrollBy(0, 2000); }"
+            )
+            await page.keyboard.press('PageDown')
+            await page.wait_for_timeout(400)
+        else:
+            print("Max rounds atteint, " + str(prev_count) + " cellules")
 
         print("[6/6] Extraction tableau depuis ECRSFL")
         extraction = await page.evaluate(EXTRACT_ROWS_JS)
