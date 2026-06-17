@@ -16,27 +16,39 @@ FMT = "%d/%m/%y"
 
 DIAGNOSTIC_JS = """
 () => {
-    function inspectDoc(doc, label) {
-        const tables = doc.querySelectorAll('table');
-        const info = [];
-        tables.forEach((t, i) => {
-            info.push({index: i, rows: t.querySelectorAll('tr').length});
+    const grids = document.querySelectorAll('[class*="traplus-grid"], [puiwdgt="grid"]');
+    const gridsInfo = [];
+    grids.forEach(g => {
+        const cells = g.querySelectorAll('[class*="cell"]');
+        gridsInfo.push({
+            id: g.id,
+            className: g.className,
+            nbChildren: g.children.length,
+            nbCells: cells.length,
+            sample: Array.from(cells).slice(0, 5).map(c => ({
+                className: c.className,
+                text: c.innerText.trim().substring(0, 40)
+            }))
         });
-        return {label: label, nbTables: tables.length, tablesInfo: info};
-    }
-    const results = [inspectDoc(document, 'main')];
-    const iframes = document.querySelectorAll('iframe');
-    iframes.forEach((f, i) => {
-        try {
-            results.push(inspectDoc(f.contentDocument, 'iframe' + i));
-        } catch (e) {
-            results.push({label: 'iframe' + i, error: e.message});
+    });
+
+    const rows = document.querySelectorAll('[class*="row"]');
+    const rowsInfo = [];
+    rows.forEach((r, i) => {
+        if (i < 10) {
+            rowsInfo.push({
+                className: r.className,
+                id: r.id,
+                text: r.innerText.trim().substring(0, 60)
+            });
         }
     });
+
     return {
-        nbIframes: iframes.length,
-        docs: results,
-        bodyTextSample: document.body.innerText.substring(0, 300)
+        nbGrids: grids.length,
+        gridsInfo: gridsInfo,
+        nbRowLike: rows.length,
+        rowsInfo: rowsInfo
     };
 }
 """
@@ -188,12 +200,13 @@ async def scrape():
 
         print("[5/6] Diagnostic page de resultats")
         diag = await page.evaluate(DIAGNOSTIC_JS)
-        print("Nb iframes: " + str(diag['nbIframes']))
-        print("Docs info: " + str(diag['docs']))
-        print("Extrait texte page: " + diag['bodyTextSample'])
+        print("Nb grids trouves: " + str(diag['nbGrids']))
+        print("Grids info: " + str(diag['gridsInfo']))
+        print("Nb elements row-like: " + str(diag['nbRowLike']))
+        print("Rows info: " + str(diag['rowsInfo']))
 
-        print("[6/6] Extraction tableau")
-        rows = await page.evaluate(EXTRACT_ROWS_JS)
+        print("[6/6] Extraction tableau (desactivee pour diagnostic)")
+        rows = []
 
         await browser.close()
         print(str(len(rows)) + " expeditions extraites")
