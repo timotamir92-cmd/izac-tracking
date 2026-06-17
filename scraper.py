@@ -55,70 +55,55 @@ DIAGNOSTIC_JS = """
 
 EXTRACT_ROWS_JS = """
 () => {
-    function findBestTable(doc) {
-        const tables = doc.querySelectorAll('table');
-        let best = null;
-        let maxRows = 0;
-        tables.forEach(t => {
-            const n = t.querySelectorAll('tr').length;
-            if (n > maxRows) { maxRows = n; best = t; }
+    const grid = document.getElementById('ECRSFL');
+    if (!grid) return {error: 'grid ECRSFL introuvable', rows: []};
+
+    const cells = Array.from(grid.querySelectorAll('.cell'));
+    const headerCells = cells.filter(c => c.className.indexOf('header-cell') !== -1);
+    const dataCells = cells.filter(c => c.className.indexOf('header-cell') === -1);
+
+    const nbCols = headerCells.length;
+    if (nbCols === 0) return {error: 'aucune colonne header trouvee', rows: []};
+
+    const headers = headerCells.map(c => c.innerText.trim());
+
+    const rows = [];
+    for (let i = 0; i < dataCells.length; i += nbCols) {
+        const rowCells = dataCells.slice(i, i + nbCols);
+        if (rowCells.length < nbCols) break;
+
+        const statutImg = rowCells[0].querySelector('img');
+        let statut = 'En cours';
+        if (statutImg) {
+            const src = statutImg.src || '';
+            if (src.indexOf('livreconforme') !== -1 && src.indexOf('non') === -1) statut = 'Livre conforme';
+            else if (src.indexOf('nonconforme') !== -1) statut = 'Livre non conforme';
+            else if (src.indexOf('anomalie') !== -1) statut = 'Anomalie';
+            else if (src.indexOf('souffrance') !== -1) statut = 'Souffrance';
+        }
+
+        rows.push({
+            statut: statut,
+            dateExpedition: rowCells[1] ? rowCells[1].innerText.trim() : '',
+            recepisse: rowCells[2] ? rowCells[2].innerText.trim() : '',
+            votreReference: rowCells[3] ? rowCells[3].innerText.trim() : '',
+            dateLivraison: rowCells[4] ? rowCells[4].innerText.trim() : '',
+            destinataire: rowCells[5] ? rowCells[5].innerText.trim() : '',
+            pays: rowCells[6] ? rowCells[6].innerText.trim() : '',
+            dept: rowCells[7] ? rowCells[7].innerText.trim() : '',
+            ville: rowCells[8] ? rowCells[8].innerText.trim() : '',
+            poids: rowCells[9] ? rowCells[9].innerText.trim() : '',
+            nbColis: rowCells[10] ? rowCells[10].innerText.trim() : ''
         });
-        return best;
     }
 
-    function extractFromTable(table) {
-        const results = [];
-        if (!table) return results;
-        const trows = table.querySelectorAll('tr');
-        for (let i = 1; i < trows.length; i++) {
-            const cells = trows[i].querySelectorAll('td');
-            if (cells.length < 8) continue;
-            const statutImg = cells[0].querySelector('img');
-            let statut = 'En cours';
-            if (statutImg) {
-                const src = statutImg.src || '';
-                if (src.indexOf('livreconforme') !== -1 && src.indexOf('non') === -1) statut = 'Livre conforme';
-                else if (src.indexOf('nonconforme') !== -1) statut = 'Livre non conforme';
-                else if (src.indexOf('anomalie') !== -1) statut = 'Anomalie';
-                else if (src.indexOf('souffrance') !== -1) statut = 'Souffrance';
-            }
-            results.push({
-                statut: statut,
-                dateExpedition: cells[1] ? cells[1].innerText.trim() : '',
-                recepisse: cells[2] ? cells[2].innerText.trim() : '',
-                votreReference: cells[3] ? cells[3].innerText.trim() : '',
-                dateLivraison: cells[4] ? cells[4].innerText.trim() : '',
-                destinataire: cells[5] ? cells[5].innerText.trim() : '',
-                pays: cells[6] ? cells[6].innerText.trim() : '',
-                dept: cells[7] ? cells[7].innerText.trim() : '',
-                ville: cells[8] ? cells[8].innerText.trim() : '',
-                poids: cells[9] ? cells[9].innerText.trim() : '',
-                nbColis: cells[10] ? cells[10].innerText.trim() : ''
-            });
-        }
-        return results;
-    }
-
-    let allDocs = [document];
-    const iframes = document.querySelectorAll('iframe');
-    iframes.forEach(f => {
-        try {
-            if (f.contentDocument) allDocs.push(f.contentDocument);
-        } catch (e) {}
-    });
-
-    let bestTable = null;
-    let bestDoc = null;
-    let maxRows = 0;
-    allDocs.forEach(doc => {
-        const t = findBestTable(doc);
-        if (t) {
-            const n = t.querySelectorAll('tr').length;
-            if (n > maxRows) { maxRows = n; bestTable = t; bestDoc = doc; }
-        }
-    });
-
-    return extractFromTable(bestTable);
+    return {
+        error: null,
+        nbCols: nbCols,
+        headers: headers,
+        nbDataCells: dataCells.length,
+        rows: rows
+    };
 }
 """
 
@@ -205,8 +190,16 @@ async def scrape():
         print("Nb elements row-like: " + str(diag['nbRowLike']))
         print("Rows info: " + str(diag['rowsInfo']))
 
-        print("[6/6] Extraction tableau (desactivee pour diagnostic)")
-        rows = []
+        print("[6/6] Extraction tableau depuis ECRSFL")
+        extraction = await page.evaluate(EXTRACT_ROWS_JS)
+        if extraction.get('error'):
+            print("Erreur extraction: " + str(extraction['error']))
+            rows = []
+        else:
+            print("Nb colonnes detectees: " + str(extraction['nbCols']))
+            print("Headers: " + str(extraction['headers']))
+            print("Nb data cells: " + str(extraction['nbDataCells']))
+            rows = extraction['rows']
 
         await browser.close()
         print(str(len(rows)) + " expeditions extraites")
