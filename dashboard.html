@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IZAC — Suivi Transadis</title>
+<title>IZAC Suivi Transadis</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
 
@@ -15,29 +15,497 @@
     --text: #e8eaf0;
     --muted: #6b7280;
     --accent: #3b82f6;
-    --livré: #22c55e;
-    --livré-bg: rgba(34,197,94,.12);
-    --nonconforme: #f59e0b;
-    --nonconforme-bg: rgba(245,158,11,.12);
-    --anomalie: #ef4444;
-    --anomalie-bg: rgba(239,68,68,.12);
-    --souffrance: #a855f7;
-    --souffrance-bg: rgba(168,85,247,.12);
-    --encours: #64748b;
-    --encours-bg: rgba(100,116,139,.12);
+
+    --ok: #22c55e;
+    --ok-bg: rgba(34,197,94,.12);
+    --warn: #f59e0b;
+    --warn-bg: rgba(245,158,11,.12);
+    --bad: #ef4444;
+    --bad-bg: rgba(239,68,68,.12);
+    --special: #a855f7;
+    --special-bg: rgba(168,85,247,.12);
+    --neutral: #64748b;
+    --neutral-bg: rgba(100,116,139,.12);
   }
+
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
-  header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 16px 32px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
-  .logo { font-size: 13px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
   .logo span { color: var(--text); }
-  .last-update { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); }
-  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; padding: 24px 32px 0; }
-  .kpi { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px; display: flex; flex-direction: column; gap: 6px; cursor: pointer; transition: border-color .15s, background .15s; }
+
+  .last-update {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .kpis {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    padding: 24px 32px 0;
+  }
+
+  .kpi {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    cursor: pointer;
+    transition: border-color .15s, background .15s;
+  }
   .kpi:hover, .kpi.active { border-color: var(--accent); }
   .kpi.active { background: rgba(59,130,246,.07); }
-  .kpi-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
-  .kpi-value { font-family: 'DM Mono', monospace; font-size: 28px; font-weight: 700; line-height: 1; }
-  .kpi-sub { font-size: 11px; color: var(--muted); font-family: 'DM Mono', monospace; }
-  .kpi[data-filter="Livré conforme"] .kpi-value { color: var(--livré); }
-  .kpi[data-filter="Livré non conforme"] .kpi-value { color: var(--nonconforme); }
+
+  .kpi-label {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--muted);
+  }
+
+  .kpi-value {
+    font-family: 'DM Mono', monospace;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .kpi-sub {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+  }
+
+  .kpi[data-filter="ok"] .kpi-value { color: var(--ok); }
+  .kpi[data-filter="warn"] .kpi-value { color: var(--warn); }
+  .kpi[data-filter="bad"] .kpi-value { color: var(--bad); }
+  .kpi[data-filter="special"] .kpi-value { color: var(--special); }
+  .kpi[data-filter="all"] .kpi-value { color: var(--accent); }
+
+  .toolbar {
+    padding: 20px 32px 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .search-wrap {
+    position: relative;
+    flex: 1;
+    min-width: 220px;
+    max-width: 380px;
+  }
+
+  .search-wrap svg {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    pointer-events: none;
+  }
+
+  input[type="search"] {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 9px 12px 9px 38px;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    outline: none;
+    transition: border-color .15s;
+  }
+  input[type="search"]:focus { border-color: var(--accent); }
+  input[type="search"]::placeholder { color: var(--muted); }
+
+  .result-count {
+    font-size: 12px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    margin-left: auto;
+  }
+
+  .table-wrap {
+    padding: 0 32px 40px;
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  thead th {
+    text-align: left;
+    padding: 10px 14px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+  }
+  thead th:hover { color: var(--text); }
+  thead th.sorted { color: var(--accent); }
+
+  tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background .1s;
+  }
+  tbody tr:hover { background: var(--surface2); }
+
+  tbody td {
+    padding: 11px 14px;
+    white-space: nowrap;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--text);
+  }
+
+  tbody td.destinataire {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    max-width: 220px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 9px;
+    border-radius: 20px;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    white-space: nowrap;
+  }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .badge.b-ok      { background: var(--ok-bg); color: var(--ok); }
+  .badge.b-warn    { background: var(--warn-bg); color: var(--warn); }
+  .badge.b-bad     { background: var(--bad-bg); color: var(--bad); }
+  .badge.b-special { background: var(--special-bg); color: var(--special); }
+  .badge.b-neutral { background: var(--neutral-bg); color: var(--neutral); }
+
+  .empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--muted);
+  }
+  .empty svg { margin-bottom: 16px; opacity: .3; }
+  .empty p { font-size: 14px; }
+
+  .loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 80px 20px;
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin .7s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .periode-bar {
+    padding: 10px 32px;
+    font-size: 12px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+
+  .periode-bar span { color: var(--text); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">IZAC <span>/ Suivi Transadis</span></div>
+  <div class="last-update" id="lastUpdate">-</div>
+</header>
+
+<div class="periode-bar" id="periodeBar">Chargement...</div>
+
+<div class="kpis" id="kpis">
+  <div class="loading"><div class="spinner"></div> Chargement des donnees...</div>
+</div>
+
+<div class="toolbar">
+  <div class="search-wrap">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path>
+    </svg>
+    <input type="search" id="searchInput" placeholder="Boutique, ville, recepisse..." oninput="applyFilters()">
+  </div>
+  <span class="result-count" id="resultCount"></span>
+</div>
+
+<div class="table-wrap">
+  <table id="trackingTable">
+    <thead>
+      <tr>
+        <th onclick="sortTable('statut')">Statut</th>
+        <th onclick="sortTable('dateExpedition')">Date exp.</th>
+        <th onclick="sortTable('recepisse')">Recepisse</th>
+        <th onclick="sortTable('destinataire')">Destinataire</th>
+        <th onclick="sortTable('dept')">Dpt</th>
+        <th onclick="sortTable('ville')">Ville</th>
+        <th onclick="sortTable('dateLivraison')">Date livr.</th>
+        <th onclick="sortTable('nbColis')">Colis</th>
+        <th onclick="sortTable('poids')">Poids</th>
+        <th onclick="sortTable('votreReference')">Reference</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody">
+      <tr><td colspan="10"><div class="loading"><div class="spinner"></div></div></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<script>
+var allData = [];
+var activeFilter = 'all';
+var sortCol = 'dateExpedition';
+var sortAsc = false;
+
+function statutToKey(statut) {
+  if (statut === 'Livre conforme') return 'ok';
+  if (statut === 'Livre non conforme') return 'warn';
+  if (statut === 'Anomalie') return 'bad';
+  if (statut === 'Souffrance') return 'special';
+  return 'neutral';
+}
+
+function loadData() {
+  fetch('data.json?t=' + Date.now())
+    .then(function(res) {
+      if (!res.ok) throw new Error('data.json introuvable, statut ' + res.status);
+      return res.json();
+    })
+    .then(function(json) {
+      allData = json.expeditions || [];
+
+      var dt = new Date(json.lastUpdate);
+      var dateStr = dt.toLocaleDateString('fr-FR');
+      var timeStr = dt.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'});
+      document.getElementById('lastUpdate').textContent = 'Mis a jour le ' + dateStr + ' a ' + timeStr;
+
+      var periode = json.periode || {};
+      document.getElementById('periodeBar').innerHTML =
+        'Periode : <span>' + (periode.debut || '') + '</span> -> <span>' + (periode.fin || '') + '</span> ... <span>' + (json.total || 0) + '</span> expeditions au total';
+
+      buildKPIs();
+      applyFilters();
+    })
+    .catch(function(e) {
+      document.getElementById('kpis').innerHTML =
+        '<div class="empty" style="grid-column:1/-1">' +
+        '<p>Impossible de charger data.json<br><small>' + e.message + '</small></p>' +
+        '</div>';
+      document.getElementById('tableBody').innerHTML = '';
+    });
+}
+
+function buildKPIs() {
+  var counts = { all: 0, ok: 0, warn: 0, bad: 0, special: 0, neutral: 0 };
+
+  for (var i = 0; i < allData.length; i++) {
+    var key = statutToKey(allData[i].statut || '');
+    counts[key] = (counts[key] || 0) + 1;
+    counts.all++;
+  }
+
+  var totalColis = 0;
+  for (var j = 0; j < allData.length; j++) {
+    totalColis += parseInt(allData[j].nbColis) || 0;
+  }
+
+  var html = '';
+  html += kpiBlock('all', 'Total', counts.all, totalColis + ' colis');
+  html += kpiBlock('ok', 'Livre conforme', counts.ok, pct(counts.ok, counts.all) + '%');
+  html += kpiBlock('warn', 'Non conforme', counts.warn, pct(counts.warn, counts.all) + '%');
+  html += kpiBlock('bad', 'Anomalie', counts.bad, pct(counts.bad, counts.all) + '%');
+  html += kpiBlock('special', 'Souffrance', counts.special, pct(counts.special, counts.all) + '%');
+  html += kpiBlock('neutral', 'En cours', counts.neutral, pct(counts.neutral, counts.all) + '%');
+
+  document.getElementById('kpis').innerHTML = html;
+
+  var firstKpi = document.querySelector('.kpi[data-filter="all"]');
+  if (firstKpi) firstKpi.classList.add('active');
+}
+
+function kpiBlock(filterKey, label, value, sub) {
+  return '<div class="kpi" data-filter="' + filterKey + '" onclick="filterByStatut(\\'' + filterKey + '\\', this)">' +
+    '<div class="kpi-label">' + label + '</div>' +
+    '<div class="kpi-value">' + value + '</div>' +
+    '<div class="kpi-sub">' + sub + '</div>' +
+  '</div>';
+}
+
+function pct(n, total) {
+  if (!total) return 0;
+  return Math.round(n / total * 100);
+}
+
+function filterByStatut(filterKey, el) {
+  activeFilter = filterKey;
+  var kpiEls = document.querySelectorAll('.kpi');
+  for (var i = 0; i < kpiEls.length; i++) kpiEls[i].classList.remove('active');
+  el.classList.add('active');
+  applyFilters();
+}
+
+function applyFilters() {
+  var q = document.getElementById('searchInput').value.toLowerCase();
+  var filtered = allData;
+
+  if (activeFilter !== 'all') {
+    filtered = filtered.filter(function(r) {
+      return statutToKey(r.statut || '') === activeFilter;
+    });
+  }
+
+  if (q) {
+    filtered = filtered.filter(function(r) {
+      return (r.destinataire || '').toLowerCase().indexOf(q) !== -1 ||
+             (r.ville || '').toLowerCase().indexOf(q) !== -1 ||
+             (r.recepisse || '').toLowerCase().indexOf(q) !== -1 ||
+             (r.votreReference || '').toLowerCase().indexOf(q) !== -1 ||
+             (r.dept || '').toLowerCase().indexOf(q) !== -1;
+    });
+  }
+
+  filtered = filtered.slice().sort(function(a, b) {
+    var va = a[sortCol] || '';
+    var vb = b[sortCol] || '';
+    if (sortCol === 'nbColis' || sortCol === 'poids') {
+      va = parseFloat(va) || 0;
+      vb = parseFloat(vb) || 0;
+    }
+    if (va < vb) return sortAsc ? -1 : 1;
+    if (va > vb) return sortAsc ? 1 : -1;
+    return 0;
+  });
+
+  renderTable(filtered);
+  document.getElementById('resultCount').textContent =
+    filtered.length + ' expedition' + (filtered.length > 1 ? 's' : '');
+}
+
+function sortTable(col) {
+  if (sortCol === col) {
+    sortAsc = !sortAsc;
+  } else {
+    sortCol = col;
+    sortAsc = true;
+  }
+  var ths = document.querySelectorAll('thead th');
+  for (var i = 0; i < ths.length; i++) ths[i].classList.remove('sorted');
+  var cols = ['statut','dateExpedition','recepisse','destinataire','dept','ville','dateLivraison','nbColis','poids','votreReference'];
+  var idx = cols.indexOf(col);
+  if (idx >= 0) ths[idx].classList.add('sorted');
+  applyFilters();
+}
+
+function badgeHtml(statut) {
+  var labels = {
+    ok: 'Livre',
+    warn: 'Non conforme',
+    bad: 'Anomalie',
+    special: 'Souffrance',
+    neutral: 'En cours'
+  };
+  var key = statutToKey(statut);
+  var label = labels[key] || labels.neutral;
+  return '<span class="badge b-' + key + '"><span class="badge-dot" style="background:currentColor"></span>' + label + '</span>';
+}
+
+function renderTable(data) {
+  var tbody = document.getElementById('tableBody');
+  if (!data.length) {
+    tbody.innerHTML = '<tr><td colspan="10"><div class="empty"><p>Aucune expedition trouvee</p></div></td></tr>';
+    return;
+  }
+
+  var rowsHtml = '';
+  for (var i = 0; i < data.length; i++) {
+    var r = data[i];
+    rowsHtml += '<tr>' +
+      '<td>' + badgeHtml(r.statut || '') + '</td>' +
+      '<td>' + (r.dateExpedition || '-') + '</td>' +
+      '<td style="color:var(--muted)">' + (r.recepisse || '-') + '</td>' +
+      '<td class="destinataire">' + (r.destinataire || '-') + '</td>' +
+      '<td style="color:var(--muted)">' + (r.dept || '-') + '</td>' +
+      '<td>' + (r.ville || '-') + '</td>' +
+      '<td style="color:' + (r.dateLivraison ? 'var(--ok)' : 'var(--muted)') + '">' + (r.dateLivraison || '-') + '</td>' +
+      '<td style="font-weight:600">' + (r.nbColis || '-') + '</td>' +
+      '<td style="color:var(--muted)">' + (r.poids ? r.poids + ' kg' : '-') + '</td>' +
+      '<td style="color:var(--muted)">' + (r.votreReference || '-') + '</td>' +
+    '</tr>';
+  }
+  tbody.innerHTML = rowsHtml;
+}
+
+loadData();
+setInterval(loadData, 10 * 60 * 1000);
+</script>
+</body>
+</html>
