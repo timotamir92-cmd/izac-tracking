@@ -16,13 +16,10 @@ FMT = "%d/%m/%y"
 DOWNLOAD_PATH = "export_traplus.xlsx"
 
 EXPORT_SELECTORS = [
-    "a:has-text('Exporter vers Excel')",
-    "text=Exporter vers Excel",
-    "a:has-text('Exporter')",
-    "[title*='Exporter']",
-    "[id*='xport']",
-    "[id*='Excel']",
-    "img[alt*='xcel']",
+    ".xlsx-paging-link",
+    "span.xlsx-paging-link",
+    "span:has-text('Exporter vers Excel')",
+    "[class*='xlsx-paging']",
 ]
 
 
@@ -100,6 +97,8 @@ async def scrape():
 
         print("Attente chargement resultats")
         await page.wait_for_timeout(6000)
+        await page.evaluate("() => window.scrollTo(0, document.body.scrollHeight)")
+        await page.wait_for_timeout(1000)
 
         await page.screenshot(path="debug_before_export.png")
         print("Screenshot avant export sauvegarde")
@@ -128,6 +127,22 @@ async def scrape():
                 ".filter(e => e.text || e.title)"
             )
             print(str(diag))
+
+            print("Recherche large du mot Excel ou Exporter dans tout le DOM")
+            wide_search = await page.evaluate(
+                "() => { "
+                "const all = Array.from(document.querySelectorAll('*')); "
+                "const matches = all.filter(e => { "
+                "  const txt = (e.innerText || e.textContent || '').trim(); "
+                "  return txt.length < 60 && (txt.toLowerCase().includes('excel') || txt.toLowerCase().includes('export')); "
+                "}); "
+                "return matches.slice(0, 20).map(e => ({tag: e.tagName, id: e.id, cls: e.className, text: (e.innerText||e.textContent||'').trim().substring(0,60)})); "
+                "}"
+            )
+            print("Resultats recherche large: " + str(wide_search))
+
+            print("Nb iframes sur la page: " + str(await page.evaluate("() => document.querySelectorAll('iframe').length")))
+
             rows = []
         else:
             print("Bouton trouve avec selecteur: " + used_selector)
@@ -188,8 +203,3 @@ async def scrape():
 
         with open("data.json", "w", encoding="utf-8") as f:
             json.dump(output, f, ensure_ascii=False, indent=2)
-        print("data.json genere")
-
-
-if __name__ == "__main__":
-    asyncio.run(scrape())
