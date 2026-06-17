@@ -16,60 +16,97 @@ FMT = "%d/%m/%y"
 
 DIAGNOSTIC_JS = """
 () => {
-    const tables = document.querySelectorAll('table');
-    const info = [];
-    tables.forEach((t, i) => {
-        info.push({index: i, rows: t.querySelectorAll('tr').length});
+    function inspectDoc(doc, label) {
+        const tables = doc.querySelectorAll('table');
+        const info = [];
+        tables.forEach((t, i) => {
+            info.push({index: i, rows: t.querySelectorAll('tr').length});
+        });
+        return {label: label, nbTables: tables.length, tablesInfo: info};
+    }
+    const results = [inspectDoc(document, 'main')];
+    const iframes = document.querySelectorAll('iframe');
+    iframes.forEach((f, i) => {
+        try {
+            results.push(inspectDoc(f.contentDocument, 'iframe' + i));
+        } catch (e) {
+            results.push({label: 'iframe' + i, error: e.message});
+        }
     });
     return {
-        nbTables: tables.length,
-        tablesInfo: info,
-        bodyTextSample: document.body.innerText.substring(0, 800)
+        nbIframes: iframes.length,
+        docs: results,
+        bodyTextSample: document.body.innerText.substring(0, 300)
     };
 }
 """
 
 EXTRACT_ROWS_JS = """
 () => {
-    const results = [];
-    const tables = document.querySelectorAll('table');
-    if (!tables.length) return results;
+    function findBestTable(doc) {
+        const tables = doc.querySelectorAll('table');
+        let best = null;
+        let maxRows = 0;
+        tables.forEach(t => {
+            const n = t.querySelectorAll('tr').length;
+            if (n > maxRows) { maxRows = n; best = t; }
+        });
+        return best;
+    }
 
-    let table = tables[0];
-    let maxRows = 0;
-    tables.forEach(t => {
-        const n = t.querySelectorAll('tr').length;
-        if (n > maxRows) { maxRows = n; table = t; }
+    function extractFromTable(table) {
+        const results = [];
+        if (!table) return results;
+        const trows = table.querySelectorAll('tr');
+        for (let i = 1; i < trows.length; i++) {
+            const cells = trows[i].querySelectorAll('td');
+            if (cells.length < 8) continue;
+            const statutImg = cells[0].querySelector('img');
+            let statut = 'En cours';
+            if (statutImg) {
+                const src = statutImg.src || '';
+                if (src.indexOf('livreconforme') !== -1 && src.indexOf('non') === -1) statut = 'Livre conforme';
+                else if (src.indexOf('nonconforme') !== -1) statut = 'Livre non conforme';
+                else if (src.indexOf('anomalie') !== -1) statut = 'Anomalie';
+                else if (src.indexOf('souffrance') !== -1) statut = 'Souffrance';
+            }
+            results.push({
+                statut: statut,
+                dateExpedition: cells[1] ? cells[1].innerText.trim() : '',
+                recepisse: cells[2] ? cells[2].innerText.trim() : '',
+                votreReference: cells[3] ? cells[3].innerText.trim() : '',
+                dateLivraison: cells[4] ? cells[4].innerText.trim() : '',
+                destinataire: cells[5] ? cells[5].innerText.trim() : '',
+                pays: cells[6] ? cells[6].innerText.trim() : '',
+                dept: cells[7] ? cells[7].innerText.trim() : '',
+                ville: cells[8] ? cells[8].innerText.trim() : '',
+                poids: cells[9] ? cells[9].innerText.trim() : '',
+                nbColis: cells[10] ? cells[10].innerText.trim() : ''
+            });
+        }
+        return results;
+    }
+
+    let allDocs = [document];
+    const iframes = document.querySelectorAll('iframe');
+    iframes.forEach(f => {
+        try {
+            if (f.contentDocument) allDocs.push(f.contentDocument);
+        } catch (e) {}
     });
 
-    const trows = table.querySelectorAll('tr');
-    for (let i = 1; i < trows.length; i++) {
-        const cells = trows[i].querySelectorAll('td');
-        if (cells.length < 8) continue;
-        const statutImg = cells[0].querySelector('img');
-        let statut = 'En cours';
-        if (statutImg) {
-            const src = statutImg.src || '';
-            if (src.indexOf('livreconforme') !== -1 && src.indexOf('non') === -1) statut = 'Livre conforme';
-            else if (src.indexOf('nonconforme') !== -1) statut = 'Livre non conforme';
-            else if (src.indexOf('anomalie') !== -1) statut = 'Anomalie';
-            else if (src.indexOf('souffrance') !== -1) statut = 'Souffrance';
+    let bestTable = null;
+    let bestDoc = null;
+    let maxRows = 0;
+    allDocs.forEach(doc => {
+        const t = findBestTable(doc);
+        if (t) {
+            const n = t.querySelectorAll('tr').length;
+            if (n > maxRows) { maxRows = n; bestTable = t; bestDoc = doc; }
         }
-        results.push({
-            statut: statut,
-            dateExpedition: cells[1] ? cells[1].innerText.trim() : '',
-            recepisse: cells[2] ? cells[2].innerText.trim() : '',
-            votreReference: cells[3] ? cells[3].innerText.trim() : '',
-            dateLivraison: cells[4] ? cells[4].innerText.trim() : '',
-            destinataire: cells[5] ? cells[5].innerText.trim() : '',
-            pays: cells[6] ? cells[6].innerText.trim() : '',
-            dept: cells[7] ? cells[7].innerText.trim() : '',
-            ville: cells[8] ? cells[8].innerText.trim() : '',
-            poids: cells[9] ? cells[9].innerText.trim() : '',
-            nbColis: cells[10] ? cells[10].innerText.trim() : ''
-        });
-    }
-    return results;
+    });
+
+    return extractFromTable(bestTable);
 }
 """
 
@@ -141,21 +178,8 @@ async def scrape():
             except Exception as e2:
                 print("Echec total clic recherche: " + str(e2))
 
-        print("Attente chargement resultats (jusqu a 20s)")
-        try:
-            await page.wait_for_function(
-                """() => {
-                    const tables = document.querySelectorAll('table');
-                    for (const t of tables) {
-                        if (t.querySelectorAll('tr').length > 5) return true;
-                    }
-                    return false;
-                }""",
-                timeout=20000
-            )
-            print("Tableau avec resultats detecte")
-        except Exception as e:
-            print("Timeout attente resultats: " + str(e))
+        print("Attente chargement resultats")
+        await page.wait_for_timeout(4000)
 
         await page.wait_for_timeout(2000)
 
@@ -164,8 +188,8 @@ async def scrape():
 
         print("[5/6] Diagnostic page de resultats")
         diag = await page.evaluate(DIAGNOSTIC_JS)
-        print("Nb tables trouvees: " + str(diag['nbTables']))
-        print("Info tables: " + str(diag['tablesInfo']))
+        print("Nb iframes: " + str(diag['nbIframes']))
+        print("Docs info: " + str(diag['docs']))
         print("Extrait texte page: " + diag['bodyTextSample'])
 
         print("[6/6] Extraction tableau")
