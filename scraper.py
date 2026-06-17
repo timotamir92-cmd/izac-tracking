@@ -138,7 +138,23 @@ async def scrape():
             except Exception as e2:
                 print("Echec total clic recherche: " + str(e2))
 
-        await page.wait_for_timeout(6000)
+        print("Attente chargement resultats (jusqu a 20s)")
+        try:
+            await page.wait_for_function(
+                """() => {
+                    const tables = document.querySelectorAll('table');
+                    for (const t of tables) {
+                        if (t.querySelectorAll('tr').length > 5) return true;
+                    }
+                    return false;
+                }""",
+                timeout=20000
+            )
+            print("Tableau avec resultats detecte")
+        except Exception as e:
+            print("Timeout attente resultats: " + str(e))
+
+        await page.wait_for_timeout(2000)
 
         print("[5/6] Diagnostic page de resultats")
         diag = await page.evaluate(DIAGNOSTIC_JS)
