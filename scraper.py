@@ -13,99 +13,35 @@ DATE_FIN = datetime.today()
 DATE_DEBUT = DATE_FIN - timedelta(days=30)
 FMT = "%d/%m/%y"
 
+DOWNLOAD_PATH = "export_traplus.xlsx"
 
-DIAGNOSTIC_JS = """
-() => {
-    const grids = document.querySelectorAll('[class*="traplus-grid"], [puiwdgt="grid"]');
-    const gridsInfo = [];
-    grids.forEach(g => {
-        const cells = g.querySelectorAll('[class*="cell"]');
-        gridsInfo.push({
-            id: g.id,
-            className: g.className,
-            nbChildren: g.children.length,
-            nbCells: cells.length,
-            sample: Array.from(cells).slice(0, 5).map(c => ({
-                className: c.className,
-                text: c.innerText.trim().substring(0, 40)
-            }))
-        });
-    });
+EXPORT_SELECTORS = [
+    "text=Exporter vers Excel",
+    "a:has-text('Exporter vers Excel')",
+    "button:has-text('Exporter vers Excel')",
+    "[title*='Exporter']",
+    "[id*='xport']",
+    "[id*='Excel']",
+    "img[alt*='xcel']",
+    "a:has-text('Exporter')",
+]
 
-    const rows = document.querySelectorAll('[class*="row"]');
-    const rowsInfo = [];
-    rows.forEach((r, i) => {
-        if (i < 10) {
-            rowsInfo.push({
-                className: r.className,
-                id: r.id,
-                text: r.innerText.trim().substring(0, 60)
-            });
-        }
-    });
 
-    return {
-        nbGrids: grids.length,
-        gridsInfo: gridsInfo,
-        nbRowLike: rows.length,
-        rowsInfo: rowsInfo
-    };
-}
-"""
-
-EXTRACT_ROWS_JS = """
-() => {
-    const grid = document.getElementById('ECRSFL');
-    if (!grid) return {error: 'grid ECRSFL introuvable', rows: []};
-
-    const cells = Array.from(grid.querySelectorAll('.cell'));
-    const headerCells = cells.filter(c => c.className.indexOf('header-cell') !== -1);
-    const dataCells = cells.filter(c => c.className.indexOf('header-cell') === -1);
-
-    const nbCols = headerCells.length;
-    if (nbCols === 0) return {error: 'aucune colonne header trouvee', rows: []};
-
-    const headers = headerCells.map(c => c.innerText.trim());
-
-    const rows = [];
-    for (let i = 0; i < dataCells.length; i += nbCols) {
-        const rowCells = dataCells.slice(i, i + nbCols);
-        if (rowCells.length < nbCols) break;
-
-        const statutImg = rowCells[0].querySelector('img');
-        let statut = 'En cours';
-        if (statutImg) {
-            const src = statutImg.src || '';
-            if (src.indexOf('livreconforme') !== -1 && src.indexOf('non') === -1) statut = 'Livre conforme';
-            else if (src.indexOf('nonconforme') !== -1) statut = 'Livre non conforme';
-            else if (src.indexOf('anomalie') !== -1) statut = 'Anomalie';
-            else if (src.indexOf('souffrance') !== -1) statut = 'Souffrance';
-        }
-
-        rows.push({
-            statut: statut,
-            dateExpedition: rowCells[1] ? rowCells[1].innerText.trim() : '',
-            recepisse: rowCells[2] ? rowCells[2].innerText.trim() : '',
-            votreReference: rowCells[3] ? rowCells[3].innerText.trim() : '',
-            dateLivraison: rowCells[4] ? rowCells[4].innerText.trim() : '',
-            destinataire: rowCells[5] ? rowCells[5].innerText.trim() : '',
-            pays: rowCells[6] ? rowCells[6].innerText.trim() : '',
-            dept: rowCells[7] ? rowCells[7].innerText.trim() : '',
-            ville: rowCells[8] ? rowCells[8].innerText.trim() : '',
-            poids: rowCells[9] ? rowCells[9].innerText.trim() : '',
-            nbColis: rowCells[10] ? rowCells[10].innerText.trim() : ''
-        });
-    }
-
-    return {
-        error: null,
-        nbCols: nbCols,
-        headers: headers,
-        nbDataCells: dataCells.length,
-        rows: rows
-    };
-}
-"""
+def statut_from_text(raw):
+    if not raw:
+        return "En cours"
+    t = str(raw).strip().lower()
+    if "anomalie" in t and "livr" in t:
+        return "Anomalie"
+    if "anomalie" in t:
+        return "Anomalie"
+    if "souffrance" in t:
+        return "Souffrance"
+    if "non conforme" in t:
+        return "Livre non conforme"
+    if "livr" in t:
+        return "Livre conforme"
+    return "En cours"
 
 
 async def scrape():
@@ -141,8 +77,6 @@ async def scrape():
             await date1.dispatch_event('change')
             await date1.dispatch_event('blur')
             print("Date1 rempli")
-        else:
-            print("Date1 introuvable")
 
         if date2:
             await date2.click()
@@ -150,18 +84,8 @@ async def scrape():
             await date2.dispatch_event('change')
             await date2.dispatch_event('blur')
             print("Date2 rempli")
-        else:
-            print("Date2 introuvable")
 
         await page.wait_for_timeout(1000)
-
-        val1 = await page.eval_on_selector('#Date1', 'el => el.value') if date1 else None
-        val2 = await page.eval_on_selector('#Date2', 'el => el.value') if date2 else None
-        print("Valeur Date1 apres remplissage: " + str(val1))
-        print("Valeur Date2 apres remplissage: " + str(val2))
-
-        await page.screenshot(path="debug_before_click.png")
-        print("Screenshot avant clic sauvegarde")
 
         print("[4/6] Clic Recherche via ID btn_rch")
         try:
@@ -176,58 +100,79 @@ async def scrape():
                 print("Echec total clic recherche: " + str(e2))
 
         print("Attente chargement resultats")
-        await page.wait_for_timeout(4000)
-        await page.wait_for_timeout(2000)
+        await page.wait_for_timeout(5000)
 
-        await page.screenshot(path="debug_after_click.png")
-        print("Screenshot apres clic sauvegarde")
+        await page.screenshot(path="debug_before_export.png")
+        print("Screenshot avant export sauvegarde")
 
-        print("[5/6] Diagnostic page de resultats")
-        diag = await page.evaluate(DIAGNOSTIC_JS)
-        print("Nb grids trouves: " + str(diag['nbGrids']))
-        print("Grids info: " + str(diag['gridsInfo']))
-        print("Nb elements row-like: " + str(diag['nbRowLike']))
-        print("Rows info: " + str(diag['rowsInfo']))
+        print("[5/6] Recherche bouton Exporter vers Excel")
+        export_clicked = False
+        used_selector = None
+        for sel in EXPORT_SELECTORS:
+            try:
+                el = await page.query_selector(sel)
+                if el:
+                    is_visible = await el.is_visible()
+                    if is_visible:
+                        used_selector = sel
+                        break
+            except Exception:
+                continue
 
-        print("Scroll pour charger toutes les lignes du grid virtualise")
-        prev_count = -1
-        stable_rounds = 0
-        max_rounds = 60
-        for round_i in range(max_rounds):
-            cur_count = await page.evaluate(
-                "() => { const g = document.getElementById('ECRSFL'); return g ? g.querySelectorAll('.cell').length : 0; }"
+        if not used_selector:
+            print("ERREUR: aucun bouton export trouve avec les selecteurs connus")
+            print("Listing de tous les liens/boutons visibles pour diagnostic:")
+            diag = await page.evaluate(
+                "() => Array.from(document.querySelectorAll('a, button, input[type=button], img')) "
+                ".filter(e => e.offsetParent !== null) "
+                ".map(e => ({tag: e.tagName, text: (e.innerText || e.alt || e.value || '').trim().substring(0,40), id: e.id, title: e.title})) "
+                ".filter(e => e.text || e.title)"
             )
-            if cur_count == prev_count:
-                stable_rounds += 1
-            else:
-                stable_rounds = 0
-            prev_count = cur_count
-
-            if stable_rounds >= 3:
-                print("Stable apres " + str(round_i) + " scrolls, " + str(cur_count) + " cellules")
-                break
-
-            await page.evaluate(
-                "() => { const g = document.getElementById('ECRSFL'); "
-                "const scrollable = g ? (g.querySelector('[class*=scroll]') || g) : null; "
-                "if (scrollable) scrollable.scrollTop = scrollable.scrollHeight; "
-                "window.scrollBy(0, 2000); }"
-            )
-            await page.keyboard.press('PageDown')
-            await page.wait_for_timeout(400)
-        else:
-            print("Max rounds atteint, " + str(prev_count) + " cellules")
-
-        print("[6/6] Extraction tableau depuis ECRSFL")
-        extraction = await page.evaluate(EXTRACT_ROWS_JS)
-        if extraction.get('error'):
-            print("Erreur extraction: " + str(extraction['error']))
+            print(str(diag))
             rows = []
         else:
-            print("Nb colonnes detectees: " + str(extraction['nbCols']))
-            print("Headers: " + str(extraction['headers']))
-            print("Nb data cells: " + str(extraction['nbDataCells']))
-            rows = extraction['rows']
+            print("Bouton trouve avec selecteur: " + used_selector)
+            try:
+                async with page.expect_download(timeout=20000) as download_info:
+                    await page.click(used_selector)
+                    export_clicked = True
+                download = await download_info.value
+                await download.save_as(DOWNLOAD_PATH)
+                print("Fichier telecharge: " + DOWNLOAD_PATH)
+            except Exception as e:
+                print("Echec telechargement: " + str(e))
+                rows = []
+                export_clicked = False
+
+            if export_clicked and os.path.exists(DOWNLOAD_PATH):
+                print("[6/6] Lecture du fichier Excel telecharge")
+                try:
+                    import pandas as pd
+                    df = pd.read_excel(DOWNLOAD_PATH)
+                    df.columns = [str(c).strip() for c in df.columns]
+                    print("Colonnes detectees: " + str(df.columns.tolist()))
+                    print("Nb lignes: " + str(len(df)))
+
+                    rows = []
+                    for _, r in df.iterrows():
+                        rows.append({
+                            "statut": statut_from_text(r.get("Statut", "")),
+                            "dateExpedition": str(r.get("Date d'expédition", "") or ""),
+                            "recepisse": str(r.get("Récépissé", "") or ""),
+                            "votreReference": str(r.get("Votre référence", "") or ""),
+                            "dateLivraison": str(r.get("Date de livraison", "") or ""),
+                            "destinataire": str(r.get("Destinataire", "") or ""),
+                            "pays": str(r.get("Pays", "") or ""),
+                            "dept": str(r.get("Dépt", "") or ""),
+                            "ville": str(r.get("Ville de destination", "") or ""),
+                            "poids": str(r.get("Poids", "") or ""),
+                            "nbColis": str(r.get("Nb colis", "") or ""),
+                        })
+                except Exception as e:
+                    print("Erreur lecture Excel: " + str(e))
+                    rows = []
+            else:
+                rows = []
 
         await browser.close()
         print(str(len(rows)) + " expeditions extraites")
