@@ -3,375 +3,157 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IZAC Suivi Transadis</title>
+<title>IZAC - Suivi Atvyl</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
-
-  :root {
-    --bg: #f4f7fb;
-    --surface: #ffffff;
-    --surface2: #eef3fa;
-    --border: #dbe4f0;
-    --text: #1a2942;
-    --muted: #64748b;
-    --accent: #2563eb;
-    --accent-dark: #1d4ed8;
-
-    --ok: #16a34a;
-    --ok-bg: #e8f7ee;
-    --warn: #d97706;
-    --warn-bg: #fef3e2;
-    --bad: #dc2626;
-    --bad-bg: #fdeaea;
-    --special: #9333ea;
-    --special-bg: #f5ecfc;
-    --neutral: #64748b;
-    --neutral-bg: #eef1f5;
+  :root{
+    --bg:#EDEFF3; --ink:#263145; --ink2:#5b647a; --ink3:#828a9c;
+    --line:#E5E9F2; --line2:#EEF1F6; --card:#fff;
+    --navy:#263145; --navy2:#324158;
+    --green:#1f9d57; --greenbg:#e6f6ed; --greenline:#bfe6cf;
+    --amber:#b9770e; --amberbg:#fbf0db; --amberline:#f0dcb0;
+    --red:#c0392b; --redbg:#fdecea; --redline:#f5cdc7;
+    --serif:'Fraunces',Georgia,serif; --sans:'Hanken Grotesk',system-ui,sans-serif;
   }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{font-family:var(--sans);background:var(--bg);color:var(--ink);min-height:100vh;font-size:14px;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1240px;margin:0 auto;padding:20px 26px 60px}
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  .hero{background:linear-gradient(135deg,#2b3752 0%,#222c41 55%,#1b2336 100%);border-radius:18px;padding:22px 26px;margin-bottom:18px;box-shadow:0 12px 34px rgba(18,26,44,.28);display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap}
+  .hero .lhs{display:flex;align-items:center;gap:14px}
+  .hero-logo{width:50px;height:50px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);border-radius:13px;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:21px;font-weight:600;color:#fff;letter-spacing:.04em}
+  .hero .eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.55);font-weight:700}
+  .hero h1{font-family:var(--serif);color:#fff;font-size:23px;font-weight:600;line-height:1.1}
+  .hero .upd{font-size:12px;color:rgba(255,255,255,.6);text-align:right}
+  .hero-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:10px}
+  .hbtn{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:#fff;border-radius:9px;padding:7px 13px;font-size:12px;font-weight:600;font-family:var(--sans);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:5px;transition:.12s}
+  .hbtn:hover{background:rgba(255,255,255,.2)}
+  .hbtn.spin{opacity:.6;pointer-events:none}
+  .hero .back{color:rgba(255,255,255,.7);font-size:12.5px;font-weight:600;text-decoration:none}
+  .hero .back:hover{color:#fff}
 
-  body {
-    font-family: 'Inter', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-  }
+  .periode{font-size:12.5px;color:var(--ink2);margin:0 2px 16px}
+  .periode b{color:var(--ink);font-weight:700}
 
-  header {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 16px 32px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:11px;margin-bottom:18px}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:15px 17px;cursor:pointer;transition:transform .14s,box-shadow .14s,border-color .14s;position:relative;overflow:hidden}
+  .kpi::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--accent,var(--navy));opacity:0;transition:opacity .15s}
+  .kpi:hover{transform:translateY(-2px);box-shadow:0 10px 26px -12px rgba(38,49,69,.4)}
+  .kpi:hover::before{opacity:1}
+  .kpi.active{border-color:var(--accent,var(--navy))}
+  .kpi.active::before{opacity:1}
+  .kpi .lab{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--ink3)}
+  .kpi .val{font-family:var(--serif);font-size:27px;font-weight:600;line-height:1.1;margin-top:6px}
+  .kpi .sub{font-size:11.5px;color:var(--ink3);margin-top:3px;font-variant-numeric:tabular-nums}
+  .kpi[data-filter="all"]{--accent:var(--navy)} .kpi[data-filter="all"] .val{color:var(--navy)}
+  .kpi[data-filter="ok"]{--accent:var(--green)} .kpi[data-filter="ok"] .val{color:var(--green)}
+  .kpi[data-filter="neutral"]{--accent:var(--amber)} .kpi[data-filter="neutral"] .val{color:var(--amber)}
+  .kpi[data-filter="bad"]{--accent:var(--red)} .kpi[data-filter="bad"] .val{color:var(--red)}
 
-  .logo {
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: var(--accent);
-  }
-  .logo span { color: var(--muted); font-weight: 500; }
+  .toolbar{display:flex;align-items:center;gap:11px;flex-wrap:wrap;margin-bottom:13px}
+  .search{position:relative;flex:1;min-width:220px;max-width:360px}
+  .search svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--ink3);pointer-events:none}
+  input[type=search],input[type=date]{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px;color:var(--ink);font-family:var(--sans);font-size:13px;outline:none;transition:border-color .12s}
+  input[type=search]{width:100%;padding-left:38px}
+  input[type=search]:focus,input[type=date]:focus{border-color:var(--navy)}
+  .datebox{display:flex;align-items:center;gap:7px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:3px 11px}
+  .datebox label{font-size:10.5px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.04em}
+  .datebox input[type=date]{border:none;padding:6px 4px;width:128px}
+  .datebox span{color:var(--ink3);font-size:12px}
+  .btn{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 13px;font-size:12px;font-weight:600;color:var(--ink2);cursor:pointer;font-family:var(--sans);transition:.12s}
+  .btn:hover{border-color:var(--navy);color:var(--navy)}
+  .count{font-size:12px;color:var(--ink3);font-weight:600;font-variant-numeric:tabular-nums;margin-left:auto}
 
-  .last-update {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    color: var(--muted);
-  }
+  .table-wrap{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 4px 16px rgba(38,49,69,.05)}
+  .scroll{overflow-x:auto;max-height:none}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  thead th{text-align:left;padding:12px 14px;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--ink3);background:#fafbfd;border-bottom:1px solid var(--line);white-space:nowrap;cursor:pointer;user-select:none;position:sticky;top:0}
+  thead th:hover{color:var(--navy)}
+  thead th.sorted{color:var(--navy)}
+  thead th .arr{font-size:9px;opacity:.7}
+  tbody tr{border-bottom:1px solid var(--line2);transition:background .1s}
+  tbody tr:last-child{border-bottom:none}
+  tbody tr:hover{background:#f7f9fc}
+  tbody td{padding:11px 14px;white-space:nowrap;font-size:13px;color:var(--ink)}
+  td.num{text-align:right;font-variant-numeric:tabular-nums}
+  td.mag{font-weight:700}
+  td.mag .magname{font-weight:500;color:var(--ink2)}
+  td.muted{color:var(--ink3);font-variant-numeric:tabular-nums}
+  .pill{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:30px;font-size:11px;font-weight:700;white-space:nowrap}
+  .pill .dot{width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0}
+  .pill.ok{background:var(--greenbg);color:var(--green)}
+  .pill.neutral{background:var(--amberbg);color:var(--amber)}
+  .pill.bad{background:var(--redbg);color:var(--red)}
 
-  .kpis {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 12px;
-    padding: 24px 32px 0;
-  }
-
-  .kpi {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 16px 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    cursor: pointer;
-    transition: border-color .15s, box-shadow .15s;
-  }
-  .kpi:hover { border-color: var(--accent); box-shadow: 0 2px 8px rgba(37,99,235,.08); }
-  .kpi.active { border-color: var(--accent); background: #eef4ff; box-shadow: 0 2px 8px rgba(37,99,235,.1); }
-
-  .kpi-label {
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: .08em;
-    color: var(--muted);
-  }
-
-  .kpi-value {
-    font-family: 'DM Mono', monospace;
-    font-size: 28px;
-    font-weight: 700;
-    line-height: 1;
-    color: var(--text);
-  }
-
-  .kpi-sub {
-    font-size: 11px;
-    color: var(--muted);
-    font-family: 'DM Mono', monospace;
-  }
-
-  .kpi[data-filter="ok"] .kpi-value { color: var(--ok); }
-  .kpi[data-filter="warn"] .kpi-value { color: var(--warn); }
-  .kpi[data-filter="bad"] .kpi-value { color: var(--bad); }
-  .kpi[data-filter="special"] .kpi-value { color: var(--special); }
-  .kpi[data-filter="all"] .kpi-value { color: var(--accent); }
-
-  .toolbar {
-    padding: 20px 32px 12px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-
-  .search-wrap {
-    position: relative;
-    flex: 1;
-    min-width: 220px;
-    max-width: 340px;
-  }
-
-  .search-wrap svg {
-    position: absolute;
-    left: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--muted);
-    pointer-events: none;
-  }
-
-  input[type="search"], input[type="date"] {
-    width: 100%;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 9px 12px;
-    color: var(--text);
-    font-family: 'Inter', sans-serif;
-    font-size: 13px;
-    outline: none;
-    transition: border-color .15s;
-  }
-  input[type="search"] { padding-left: 38px; }
-  input[type="search"]:focus, input[type="date"]:focus { border-color: var(--accent); }
-  input[type="search"]::placeholder { color: var(--muted); }
-
-  .date-filter-wrap {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 4px 10px;
-  }
-  .date-filter-wrap label {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: .04em;
-  }
-  .date-filter-wrap input[type="date"] {
-    border: none;
-    padding: 5px 4px;
-    width: 130px;
-  }
-  .date-filter-wrap span { color: var(--muted); font-size: 12px; }
-
-  .clear-dates-btn {
-    background: none;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 8px 12px;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--muted);
-    cursor: pointer;
-    transition: border-color .15s, color .15s;
-  }
-  .clear-dates-btn:hover { border-color: var(--accent); color: var(--accent); }
-
-  .result-count {
-    font-size: 12px;
-    color: var(--muted);
-    font-family: 'DM Mono', monospace;
-    margin-left: auto;
-  }
-
-  .table-wrap {
-    padding: 0 32px 40px;
-    overflow-x: auto;
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-    background: var(--surface);
-    border-radius: 10px;
-    overflow: hidden;
-    border: 1px solid var(--border);
-  }
-
-  thead th {
-    text-align: left;
-    padding: 12px 14px;
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: .06em;
-    color: var(--accent-dark);
-    background: var(--surface2);
-    border-bottom: 1px solid var(--border);
-    white-space: nowrap;
-    cursor: pointer;
-    user-select: none;
-  }
-  thead th:hover { background: #e3ecf9; }
-  thead th.sorted { color: var(--accent); }
-
-  tbody tr {
-    border-bottom: 1px solid var(--border);
-    transition: background .1s;
-  }
-  tbody tr:last-child { border-bottom: none; }
-  tbody tr:hover { background: var(--surface2); }
-
-  tbody td {
-    padding: 11px 14px;
-    white-space: nowrap;
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    color: var(--text);
-  }
-
-  tbody td.destinataire {
-    font-family: 'Inter', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    max-width: 220px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    padding: 3px 9px;
-    border-radius: 20px;
-    font-family: 'Inter', sans-serif;
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: .06em;
-    white-space: nowrap;
-  }
-
-  .badge-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  .badge.b-ok      { background: var(--ok-bg); color: var(--ok); }
-  .badge.b-warn    { background: var(--warn-bg); color: var(--warn); }
-  .badge.b-bad     { background: var(--bad-bg); color: var(--bad); }
-  .badge.b-special { background: var(--special-bg); color: var(--special); }
-  .badge.b-neutral { background: var(--neutral-bg); color: var(--neutral); }
-
-  .empty {
-    text-align: center;
-    padding: 60px 20px;
-    color: var(--muted);
-  }
-  .empty p { font-size: 14px; }
-
-  .loading {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    padding: 80px 20px;
-    color: var(--muted);
-    font-size: 14px;
-  }
-
-  .spinner {
-    width: 20px;
-    height: 20px;
-    border: 2px solid var(--border);
-    border-top-color: var(--accent);
-    border-radius: 50%;
-    animation: spin .7s linear infinite;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  .periode-bar {
-    padding: 10px 32px;
-    font-size: 12px;
-    color: var(--muted);
-    font-family: 'DM Mono', monospace;
-    border-bottom: 1px solid var(--border);
-    background: var(--surface);
-  }
-
-  .periode-bar span { color: var(--accent-dark); font-weight: 600; }
+  .empty,.loading{text-align:center;padding:60px 20px;color:var(--ink3);font-size:14px}
+  .loading{display:flex;align-items:center;justify-content:center;gap:12px}
+  .spinner{width:20px;height:20px;border:2px solid var(--line);border-top-color:var(--navy);border-radius:50%;animation:spin .7s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @media(max-width:640px){.hero .upd{text-align:left}}
 </style>
 </head>
 <body>
-
-<header>
-  <div class="logo">IZAC <span>/ Suivi Transadis</span></div>
-  <div class="last-update" id="lastUpdate">-</div>
-</header>
-
-<div class="periode-bar" id="periodeBar">Chargement...</div>
-
-<div class="kpis" id="kpis">
-  <div class="loading"><div class="spinner"></div> Chargement des donnees...</div>
-</div>
-
-<div class="toolbar">
-  <div class="search-wrap">
-    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-      <circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path>
-    </svg>
-    <input type="search" id="searchInput" placeholder="Boutique, ville, recepisse..." oninput="applyFilters()">
+<div class="wrap">
+  <div class="hero">
+    <div class="lhs">
+      <div class="hero-logo">IZ</div>
+      <div>
+        <div class="eyebrow">IZAC - Transport</div>
+        <h1>Suivi Atvyl</h1>
+      </div>
+    </div>
+    <div>
+      <div class="upd" id="lastUpdate">-</div>
+      <div class="hero-actions">
+        <button class="hbtn" id="refreshBtn" onclick="manualRefresh()">↻ Rafraichir</button>
+        <a class="hbtn" id="scrapeLink" href="https://github.com/timotamir92-cmd/izac-tracking/actions" target="_blank" rel="noopener">⟳ Forcer un scrape</a>
+      </div>
+    </div>
   </div>
 
-  <div class="date-filter-wrap">
-    <label>Du</label>
-    <input type="date" id="dateFrom" oninput="applyFilters()">
-    <span>au</span>
-    <input type="date" id="dateTo" oninput="applyFilters()">
+  <div class="periode" id="periodeBar">Chargement...</div>
+
+  <div class="kpis" id="kpis">
+    <div class="loading"><div class="spinner"></div> Chargement des donnees...</div>
   </div>
 
-  <button class="clear-dates-btn" onclick="clearDates()">Effacer les dates</button>
+  <div class="toolbar">
+    <div class="search">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>
+      <input type="search" id="searchInput" placeholder="Magasin, ville, recepisse, reference..." oninput="applyFilters()">
+    </div>
+    <div class="datebox">
+      <label>Du</label>
+      <input type="date" id="dateFrom" oninput="applyFilters()">
+      <span>au</span>
+      <input type="date" id="dateTo" oninput="applyFilters()">
+    </div>
+    <button class="btn" onclick="clearDates()">Effacer dates</button>
+    <span class="count" id="resultCount"></span>
+  </div>
 
-  <span class="result-count" id="resultCount"></span>
-</div>
-
-<div class="table-wrap">
-  <table id="trackingTable">
-    <thead>
-      <tr>
-        <th onclick="sortTable('statut')">Statut</th>
-        <th onclick="sortTable('dateExpedition')">Date exp.</th>
-        <th onclick="sortTable('recepisse')">Recepisse</th>
-        <th onclick="sortTable('destinataire')">Destinataire</th>
-        <th onclick="sortTable('dept')">Dpt</th>
-        <th onclick="sortTable('ville')">Ville</th>
-        <th onclick="sortTable('dateLivraison')">Date livr.</th>
-        <th onclick="sortTable('nbColis')">Colis</th>
-        <th onclick="sortTable('poids')">Poids</th>
-        <th onclick="sortTable('votreReference')">Reference</th>
-      </tr>
-    </thead>
-    <tbody id="tableBody">
-      <tr><td colspan="10"><div class="loading"><div class="spinner"></div></div></td></tr>
-    </tbody>
-  </table>
+  <div class="table-wrap">
+    <div class="scroll">
+      <table id="trackingTable">
+        <thead>
+          <tr>
+            <th onclick="sortTable('statut')">Statut</th>
+            <th onclick="sortTable('dateExpedition')">Date exp.</th>
+            <th onclick="sortTable('magcode')">Magasin</th>
+            <th onclick="sortTable('nbColis')">Colis</th>
+            <th onclick="sortTable('dateLivraison')">Livraison</th>
+            <th onclick="sortTable('ville')">Ville</th>
+            <th onclick="sortTable('dept')">Dpt</th>
+            <th onclick="sortTable('poids')">Poids</th>
+            <th onclick="sortTable('recepisse')">Recepisse</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+          <tr><td colspan="9"><div class="loading"><div class="spinner"></div></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -383,15 +165,26 @@ var dataYear = new Date().getFullYear();
 
 function statutToKey(statut) {
   if (statut === 'Livre conforme') return 'ok';
-  if (statut === 'Livre non conforme') return 'warn';
   if (statut === 'Anomalie') return 'bad';
-  if (statut === 'Souffrance') return 'special';
+  if (statut === 'En cours') return 'neutral';
+  if (statut === 'Souffrance') return 'bad';
+  if (statut === 'Livre non conforme') return 'bad';
   return 'neutral';
 }
 
+function magCode(dest) {
+  if (!dest) return '';
+  var m = dest.trim().match(/^(\d+)/);
+  return m ? m[1] : '';
+}
+function magName(dest) {
+  if (!dest) return '';
+  return dest.replace(/^\d+\s*/, '').replace(/^IZAC\s*/i, '').trim();
+}
+
 function parseDDMM(str) {
-  if (!str) return null;
-  var firstPart = str.split('\n')[0].trim();
+  if (!str || str === 'nan') return null;
+  var firstPart = str.split('\n')[0].split(' ')[0].trim();
   var bits = firstPart.split('/');
   if (bits.length !== 2) return null;
   var day = parseInt(bits[0], 10);
@@ -400,119 +193,113 @@ function parseDDMM(str) {
   return new Date(dataYear, month - 1, day);
 }
 
-function loadData() {
+function cleanLivr(v) {
+  if (!v || v === 'nan') return '';
+  return v;
+}
+function cleanRef(v) {
+  if (!v || v === 'nan') return '';
+  return String(v).replace(/\.0$/, '');
+}
+
+function manualRefresh(){
+  var btn=document.getElementById('refreshBtn');
+  if(btn){ btn.classList.add('spin'); btn.textContent='↻ Lecture...'; }
+  loadData(function(){
+    if(btn){ btn.classList.remove('spin'); btn.textContent='↻ Rafraichir'; }
+  });
+}
+
+function loadData(done) {
   fetch('data.json?t=' + Date.now())
-    .then(function(res) {
-      if (!res.ok) throw new Error('data.json introuvable, statut ' + res.status);
-      return res.json();
-    })
-    .then(function(json) {
+    .then(function(res){ if(!res.ok) throw new Error('data.json introuvable (' + res.status + ')'); return res.json(); })
+    .then(function(json){
       allData = json.expeditions || [];
-
       var dt = new Date(json.lastUpdate);
-      dataYear = dt.getFullYear();
-      var dateStr = dt.toLocaleDateString('fr-FR');
-      var timeStr = dt.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'});
-      document.getElementById('lastUpdate').textContent = 'Mis a jour le ' + dateStr + ' a ' + timeStr;
-
-      var periode = json.periode || {};
+      if (!isNaN(dt)) {
+        dataYear = dt.getFullYear();
+        document.getElementById('lastUpdate').textContent =
+          'Mis a jour le ' + dt.toLocaleDateString('fr-FR') + ' a ' + dt.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+      }
+      var p = json.periode || {};
       document.getElementById('periodeBar').innerHTML =
-        'Periode disponible : <span>' + (periode.debut || '') + '</span> -> <span>' + (periode.fin || '') + '</span> &middot; <span>' + (json.total || 0) + '</span> expeditions au total';
-
+        'Periode : <b>' + (p.debut||'') + '</b> au <b>' + (p.fin||'') + '</b> &middot; <b>' + (json.total||allData.length) + '</b> expeditions';
       buildKPIs();
       applyFilters();
+      if (typeof done === 'function') done();
     })
-    .catch(function(e) {
+    .catch(function(e){
       document.getElementById('kpis').innerHTML =
-        '<div class="empty" style="grid-column:1/-1">' +
-        '<p>Impossible de charger data.json<br><small>' + e.message + '</small></p>' +
-        '</div>';
+        '<div class="empty" style="grid-column:1/-1">Impossible de charger data.json<br><small>' + e.message + '</small></div>';
       document.getElementById('tableBody').innerHTML = '';
+      if (typeof done === 'function') done();
     });
 }
 
 function buildKPIs() {
-  var counts = { all: 0, ok: 0, warn: 0, bad: 0, special: 0, neutral: 0 };
-
-  for (var i = 0; i < allData.length; i++) {
-    var key = statutToKey(allData[i].statut || '');
-    counts[key] = (counts[key] || 0) + 1;
-    counts.all++;
-  }
-
+  var counts = { all:0, ok:0, neutral:0, bad:0 };
   var totalColis = 0;
-  for (var j = 0; j < allData.length; j++) {
-    totalColis += parseInt(allData[j].nbColis) || 0;
+  for (var i=0;i<allData.length;i++){
+    var k = statutToKey(allData[i].statut||'');
+    if (k!=='ok' && k!=='bad') k='neutral';
+    counts[k]++; counts.all++;
+    totalColis += parseInt(allData[i].nbColis)||0;
   }
-
   var html = '';
-  html += kpiBlock('all', 'Total', counts.all, totalColis + ' colis');
-  html += kpiBlock('ok', 'Livre conforme', counts.ok, pct(counts.ok, counts.all) + '%');
-  html += kpiBlock('warn', 'Non conforme', counts.warn, pct(counts.warn, counts.all) + '%');
-  html += kpiBlock('bad', 'Anomalie', counts.bad, pct(counts.bad, counts.all) + '%');
-  html += kpiBlock('special', 'Souffrance', counts.special, pct(counts.special, counts.all) + '%');
-  html += kpiBlock('neutral', 'En cours', counts.neutral, pct(counts.neutral, counts.all) + '%');
-
+  html += kpiBlock('all','Total',counts.all, totalColis+' colis');
+  html += kpiBlock('ok','Livre conforme',counts.ok, pct(counts.ok,counts.all)+'%');
+  html += kpiBlock('neutral','En cours',counts.neutral, pct(counts.neutral,counts.all)+'%');
+  html += kpiBlock('bad','Anomalie',counts.bad, pct(counts.bad,counts.all)+'%');
   document.getElementById('kpis').innerHTML = html;
-
-  var firstKpi = document.querySelector('.kpi[data-filter="all"]');
-  if (firstKpi) firstKpi.classList.add('active');
+  var f = document.querySelector('.kpi[data-filter="'+activeFilter+'"]');
+  if (f) f.classList.add('active');
 }
 
-function kpiBlock(filterKey, label, value, sub) {
-  return '<div class="kpi" data-filter="' + filterKey + '" onclick=\'filterByStatut("' + filterKey + '", this)\'>' +
-    '<div class="kpi-label">' + label + '</div>' +
-    '<div class="kpi-value">' + value + '</div>' +
-    '<div class="kpi-sub">' + sub + '</div>' +
-  '</div>';
+function kpiBlock(key,label,value,sub){
+  return '<div class="kpi' + (key===activeFilter?' active':'') + '" data-filter="'+key+'" onclick=\'filterByStatut("'+key+'",this)\'>' +
+    '<div class="lab">'+label+'</div><div class="val">'+value+'</div><div class="sub">'+sub+'</div></div>';
 }
+function pct(n,t){ return t?Math.round(n/t*100):0; }
 
-function pct(n, total) {
-  if (!total) return 0;
-  return Math.round(n / total * 100);
-}
-
-function filterByStatut(filterKey, el) {
-  activeFilter = filterKey;
-  var kpiEls = document.querySelectorAll('.kpi');
-  for (var i = 0; i < kpiEls.length; i++) kpiEls[i].classList.remove('active');
+function filterByStatut(key, el){
+  activeFilter = key;
+  var els = document.querySelectorAll('.kpi');
+  for (var i=0;i<els.length;i++) els[i].classList.remove('active');
   el.classList.add('active');
   applyFilters();
 }
 
-function clearDates() {
-  document.getElementById('dateFrom').value = '';
-  document.getElementById('dateTo').value = '';
+function clearDates(){
+  document.getElementById('dateFrom').value='';
+  document.getElementById('dateTo').value='';
   applyFilters();
 }
 
-function applyFilters() {
+function applyFilters(){
   var q = document.getElementById('searchInput').value.toLowerCase();
-  var dateFromStr = document.getElementById('dateFrom').value;
-  var dateToStr = document.getElementById('dateTo').value;
-  var dateFrom = dateFromStr ? new Date(dateFromStr) : null;
-  var dateTo = dateToStr ? new Date(dateToStr) : null;
-
+  var dF = document.getElementById('dateFrom').value;
+  var dT = document.getElementById('dateTo').value;
+  var dateFrom = dF ? new Date(dF) : null;
+  var dateTo = dT ? new Date(dT) : null;
   var filtered = allData;
 
   if (activeFilter !== 'all') {
-    filtered = filtered.filter(function(r) {
-      return statutToKey(r.statut || '') === activeFilter;
+    filtered = filtered.filter(function(r){
+      var k = statutToKey(r.statut||''); if(k!=='ok'&&k!=='bad')k='neutral';
+      return k === activeFilter;
     });
   }
-
   if (q) {
-    filtered = filtered.filter(function(r) {
-      return (r.destinataire || '').toLowerCase().indexOf(q) !== -1 ||
-             (r.ville || '').toLowerCase().indexOf(q) !== -1 ||
-             (r.recepisse || '').toLowerCase().indexOf(q) !== -1 ||
-             (r.votreReference || '').toLowerCase().indexOf(q) !== -1 ||
-             (r.dept || '').toLowerCase().indexOf(q) !== -1;
+    filtered = filtered.filter(function(r){
+      return (r.destinataire||'').toLowerCase().indexOf(q)!==-1 ||
+             (r.ville||'').toLowerCase().indexOf(q)!==-1 ||
+             (r.recepisse||'').toLowerCase().indexOf(q)!==-1 ||
+             cleanRef(r.votreReference).toLowerCase().indexOf(q)!==-1 ||
+             (r.dept||'').toLowerCase().indexOf(q)!==-1;
     });
   }
-
   if (dateFrom || dateTo) {
-    filtered = filtered.filter(function(r) {
+    filtered = filtered.filter(function(r){
       var d = parseDDMM(r.dateExpedition);
       if (!d) return false;
       if (dateFrom && d < dateFrom) return false;
@@ -521,79 +308,66 @@ function applyFilters() {
     });
   }
 
-  filtered = filtered.slice().sort(function(a, b) {
-    var va = a[sortCol] || '';
-    var vb = b[sortCol] || '';
-    if (sortCol === 'nbColis' || sortCol === 'poids') {
-      va = parseFloat(va) || 0;
-      vb = parseFloat(vb) || 0;
-    }
-    if (va < vb) return sortAsc ? -1 : 1;
-    if (va > vb) return sortAsc ? 1 : -1;
+  filtered = filtered.slice().sort(function(a,b){
+    var va,vb;
+    if (sortCol==='magcode'){ va=magCode(a.destinataire); vb=magCode(b.destinataire); va=parseInt(va)||0; vb=parseInt(vb)||0; }
+    else if (sortCol==='nbColis'||sortCol==='poids'){ va=parseFloat(a[sortCol])||0; vb=parseFloat(b[sortCol])||0; }
+    else if (sortCol==='dateExpedition'||sortCol==='dateLivraison'){ va=parseDDMM(a[sortCol])||new Date(0); vb=parseDDMM(b[sortCol])||new Date(0); }
+    else { va=(a[sortCol]||'').toString(); vb=(b[sortCol]||'').toString(); }
+    if (va<vb) return sortAsc?-1:1;
+    if (va>vb) return sortAsc?1:-1;
     return 0;
   });
 
   renderTable(filtered);
-  document.getElementById('resultCount').textContent =
-    filtered.length + ' expedition' + (filtered.length > 1 ? 's' : '');
+  document.getElementById('resultCount').textContent = filtered.length + ' expedition' + (filtered.length>1?'s':'');
 }
 
-function sortTable(col) {
-  if (sortCol === col) {
-    sortAsc = !sortAsc;
-  } else {
-    sortCol = col;
-    sortAsc = true;
-  }
+function sortTable(col){
+  if (sortCol===col) sortAsc=!sortAsc;
+  else { sortCol=col; sortAsc=(col!=='dateExpedition'&&col!=='dateLivraison'); }
   var ths = document.querySelectorAll('thead th');
-  for (var i = 0; i < ths.length; i++) ths[i].classList.remove('sorted');
-  var cols = ['statut','dateExpedition','recepisse','destinataire','dept','ville','dateLivraison','nbColis','poids','votreReference'];
-  var idx = cols.indexOf(col);
-  if (idx >= 0) ths[idx].classList.add('sorted');
+  for (var i=0;i<ths.length;i++) ths[i].classList.remove('sorted');
+  var cols=['statut','dateExpedition','magcode','nbColis','dateLivraison','ville','dept','poids','recepisse'];
+  var idx=cols.indexOf(col);
+  if (idx>=0) ths[idx].classList.add('sorted');
   applyFilters();
 }
 
-function badgeHtml(statut) {
-  var labels = {
-    ok: 'Livre',
-    warn: 'Non conforme',
-    bad: 'Anomalie',
-    special: 'Souffrance',
-    neutral: 'En cours'
-  };
-  var key = statutToKey(statut);
-  var label = labels[key] || labels.neutral;
-  return '<span class="badge b-' + key + '"><span class="badge-dot" style="background:currentColor"></span>' + label + '</span>';
+function pillHtml(statut){
+  var key=statutToKey(statut); if(key!=='ok'&&key!=='bad')key='neutral';
+  var labels={ok:'Livre',neutral:'En cours',bad:'Anomalie'};
+  return '<span class="pill '+key+'"><span class="dot"></span>'+(labels[key]||'En cours')+'</span>';
 }
 
-function renderTable(data) {
-  var tbody = document.getElementById('tableBody');
-  if (!data.length) {
-    tbody.innerHTML = '<tr><td colspan="10"><div class="empty"><p>Aucune expedition trouvee</p></div></td></tr>';
+function renderTable(data){
+  var tbody=document.getElementById('tableBody');
+  if (!data.length){
+    tbody.innerHTML='<tr><td colspan="9"><div class="empty">Aucune expedition trouvee</div></td></tr>';
     return;
   }
-
-  var rowsHtml = '';
-  for (var i = 0; i < data.length; i++) {
-    var r = data[i];
-    rowsHtml += '<tr>' +
-      '<td>' + badgeHtml(r.statut || '') + '</td>' +
-      '<td>' + (r.dateExpedition || '-') + '</td>' +
-      '<td style="color:var(--muted)">' + (r.recepisse || '-') + '</td>' +
-      '<td class="destinataire">' + (r.destinataire || '-') + '</td>' +
-      '<td style="color:var(--muted)">' + (r.dept || '-') + '</td>' +
-      '<td>' + (r.ville || '-') + '</td>' +
-      '<td style="color:' + (r.dateLivraison ? 'var(--ok)' : 'var(--muted)') + '">' + (r.dateLivraison || '-') + '</td>' +
-      '<td style="font-weight:600">' + (r.nbColis || '-') + '</td>' +
-      '<td style="color:var(--muted)">' + (r.poids ? r.poids + ' kg' : '-') + '</td>' +
-      '<td style="color:var(--muted)">' + (r.votreReference || '-') + '</td>' +
+  var h='';
+  for (var i=0;i<data.length;i++){
+    var r=data[i];
+    var code=magCode(r.destinataire), name=magName(r.destinataire);
+    var livr=cleanLivr(r.dateLivraison);
+    h+='<tr>'+
+      '<td>'+pillHtml(r.statut||'')+'</td>'+
+      '<td class="muted">'+(r.dateExpedition||'-')+'</td>'+
+      '<td class="mag">'+code+(name?' &middot; <span class="magname">'+name+'</span>':'')+'</td>'+
+      '<td class="num" style="font-weight:700">'+(r.nbColis||'-')+'</td>'+
+      '<td style="color:'+(livr?'var(--green)':'var(--ink3)')+';font-weight:'+(livr?'600':'400')+'">'+(livr||'en attente')+'</td>'+
+      '<td>'+(r.ville||'-')+'</td>'+
+      '<td class="muted">'+(r.dept||'-')+'</td>'+
+      '<td class="muted">'+(r.poids&&String(r.poids).trim()!=='nan'?(String(r.poids).trim()+' kg'):'-')+'</td>'+
+      '<td class="muted">'+(r.recepisse||'-')+'</td>'+
     '</tr>';
   }
-  tbody.innerHTML = rowsHtml;
+  tbody.innerHTML=h;
 }
 
 loadData();
-setInterval(loadData, 10 * 60 * 1000);
+setInterval(loadData, 10*60*1000);
 </script>
 </body>
 </html>
