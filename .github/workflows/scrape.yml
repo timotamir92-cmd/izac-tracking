@@ -22,7 +22,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install playwright
+          pip install playwright pandas openpyxl
           playwright install chromium
           playwright install-deps chromium
 
