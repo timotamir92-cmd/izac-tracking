@@ -34,6 +34,11 @@
 
   .periode{font-size:12.5px;color:var(--ink2);margin:0 2px 16px}
   .periode b{color:var(--ink);font-weight:700}
+  .staleban{border-radius:12px;padding:12px 16px;margin-bottom:16px;font-size:13px;font-weight:600;display:none;align-items:center;gap:9px}
+  .staleban.show{display:flex}
+  .staleban.warn{background:var(--amberbg);border:1px solid var(--amberline);color:var(--amber)}
+  .staleban.bad{background:var(--redbg);border:1px solid var(--redline);color:var(--red)}
+  .staleban .ico{font-size:16px}
 
   .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:11px;margin-bottom:18px}
   .kpi{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:15px 17px;cursor:pointer;transition:transform .14s,box-shadow .14s,border-color .14s;position:relative;overflow:hidden}
@@ -110,6 +115,8 @@
       </div>
     </div>
   </div>
+
+  <div class="staleban" id="staleBan"></div>
 
   <div class="periode" id="periodeBar">Chargement...</div>
 
@@ -202,6 +209,23 @@ function cleanRef(v) {
   return String(v).replace(/\.0$/, '');
 }
 
+function checkFreshness(dt){
+  var ban=document.getElementById('staleBan');
+  if(!ban) return;
+  var hours=(Date.now()-dt.getTime())/36e5;
+  if(hours>=24){
+    var days=Math.floor(hours/24);
+    ban.className='staleban bad show';
+    ban.innerHTML='<span class="ico">⚠</span><span>Données non actualisées depuis '+(days>=1?days+' jour'+(days>1?'s':''):Math.round(hours)+' h')+'. Le scraper n\'a probablement pas tourné — clique « Forcer un scrape » et vérifie la page Actions.</span>';
+  } else if(hours>=12){
+    ban.className='staleban warn show';
+    ban.innerHTML='<span class="ico">⏱</span><span>Dernière collecte il y a '+Math.round(hours)+' h. Pense à rafraîchir si tu attends des livraisons récentes.</span>';
+  } else {
+    ban.className='staleban';
+    ban.innerHTML='';
+  }
+}
+
 function manualRefresh(){
   var btn=document.getElementById('refreshBtn');
   if(btn){ btn.classList.add('spin'); btn.textContent='↻ Lecture...'; }
@@ -220,6 +244,7 @@ function loadData(done) {
         dataYear = dt.getFullYear();
         document.getElementById('lastUpdate').textContent =
           'Mis a jour le ' + dt.toLocaleDateString('fr-FR') + ' a ' + dt.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+        checkFreshness(dt);
       }
       var p = json.periode || {};
       document.getElementById('periodeBar').innerHTML =
