@@ -1,5 +1,5 @@
 {
-  "lastUpdate": "2026-08-11T05:55:05.604082",
+  "lastUpdate": "2026-08-11T11:48:00.430363",
   "periode": {
     "debut": "12/07/2026",
     "fin": "11/08/2026"
@@ -4466,11 +4466,11 @@
       "nbColis": "17"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "10/08",
       "recepisse": "2018047",
       "votreReference": "2018047.0",
-      "dateLivraison": "nan",
+      "dateLivraison": "11/08",
       "destinataire": "1104 IZAC CRETEIL",
       "pays": "FR",
       "dept": "94",
@@ -4622,11 +4622,11 @@
       "nbColis": "16"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "10/08",
       "recepisse": "5519684",
       "votreReference": "2018047.0",
-      "dateLivraison": "nan",
+      "dateLivraison": "11/08",
       "destinataire": "1104 IZAC CRETEIL",
       "pays": "FR",
       "dept": "94",
@@ -4882,11 +4882,11 @@
       "nbColis": "4"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "10/08",
       "recepisse": "5519704",
       "votreReference": "2018046.0",
-      "dateLivraison": "nan",
+      "dateLivraison": "11/08",
       "destinataire": "1782 IZAC CORBEIL",
       "pays": "FR",
       "dept": "91",
@@ -4908,11 +4908,11 @@
       "nbColis": "3"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "07/08",
       "recepisse": "5519138",
       "votreReference": "2017707.0",
-      "dateLivraison": "nan",
+      "dateLivraison": "10/08 à 10:10",
       "destinataire": "1009 IZAC PARIS AUBER",
       "pays": "FR",
       "dept": "75",
@@ -4921,11 +4921,11 @@
       "nbColis": "9"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "07/08",
       "recepisse": "5519139",
       "votreReference": "2017711.0",
-      "dateLivraison": "nan",
+      "dateLivraison": "10/08 à 08:00",
       "destinataire": "1010 IZAC BELLE EPINE",
       "pays": "FR",
       "dept": "94",
@@ -4934,11 +4934,11 @@
       "nbColis": "7"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "07/08",
       "recepisse": "5519140",
       "votreReference": "2017712.0",
-      "dateLivraison": "nan",
+      "dateLivraison": "10/08 à 08:00",
       "destinataire": "1028 IZAC PARIS RENNES",
       "pays": "FR",
       "dept": "75",
@@ -4947,11 +4947,11 @@
       "nbColis": "7"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "07/08",
       "recepisse": "5519141",
       "votreReference": "2017717.0",
-      "dateLivraison": "nan",
+      "dateLivraison": "10/08 à 08:00",
       "destinataire": "1045 IZAC PARINOR",
       "pays": "FR",
       "dept": "93",
@@ -4960,11 +4960,11 @@
       "nbColis": "5"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "07/08",
       "recepisse": "5519142",
       "votreReference": "2017704.0",
-      "dateLivraison": "nan",
+      "dateLivraison": "10/08 à 12:50",
       "destinataire": "1104 IZAC CRETEIL",
       "pays": "FR",
       "dept": "94",
@@ -4973,11 +4973,11 @@
       "nbColis": "9"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "07/08",
       "recepisse": "5519143",
       "votreReference": "2017738.0",
-      "dateLivraison": "nan",
+      "dateLivraison": "10/08 à 08:00",
       "destinataire": "1109 IZAC ILE ST DENIS",
       "pays": "FR",
       "dept": "93",
@@ -5025,11 +5025,11 @@
       "nbColis": "7"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "07/08",
       "recepisse": "5519147",
       "votreReference": "2017716.0",
-      "dateLivraison": "nan",
+      "dateLivraison": "10/08 à 10:30",
       "destinataire": "1353 IZAC CLAYE SOUILLY",
       "pays": "FR",
       "dept": "77",
@@ -5038,11 +5038,11 @@
       "nbColis": "4"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "07/08",
       "recepisse": "5519148",
       "votreReference": "2017710.0",
-      "dateLivraison": "nan",
+      "dateLivraison": "10/08 à 11:08",
       "destinataire": "1449 IZAC AEROVILLE",
       "pays": "FR",
       "dept": "95",
@@ -5064,11 +5064,11 @@
       "nbColis": "7"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "07/08",
       "recepisse": "5519150",
       "votreReference": "2017737.0",
-      "dateLivraison": "nan",
+      "dateLivraison": "10/08 à 08:00",
       "destinataire": "1498 IZAC GONESSE",
       "pays": "FR",
       "dept": "95",
@@ -5090,11 +5090,11 @@
       "nbColis": "14"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "07/08",
       "recepisse": "5519152",
       "votreReference": "2017702.0",
-      "dateLivraison": "nan",
+      "dateLivraison": "10/08 à 08:00",
       "destinataire": "1552 IZAC VAL D'EUROPE",
       "pays": "FR",
       "dept": "77",
@@ -5103,11 +5103,11 @@
       "nbColis": "9"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "07/08",
       "recepisse": "5519153",
       "votreReference": "2017719.0",
-      "dateLivraison": "nan",
+      "dateLivraison": "10/08 à 08:00",
       "destinataire": "1568 IZAC CARRE SENART",
       "pays": "FR",
       "dept": "77",
@@ -5129,11 +5129,11 @@
       "nbColis": "9"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "07/08",
       "recepisse": "5519155",
       "votreReference": "2017701.0",
-      "dateLivraison": "nan",
+      "dateLivraison": "10/08 à 08:00",
       "destinataire": "1604 IZAC ROSNY",
       "pays": "FR",
       "dept": "93",
@@ -5155,11 +5155,11 @@
       "nbColis": "6"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "07/08",
       "recepisse": "5519157",
       "votreReference": "2017706.0",
-      "dateLivraison": "nan",
+      "dateLivraison": "10/08 à 08:00",
       "destinataire": "1665 IZAC PARIS GARE MONTP",
       "pays": "FR",
       "dept": "75",
@@ -5168,11 +5168,11 @@
       "nbColis": "19"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "07/08",
       "recepisse": "5519158",
       "votreReference": "2017720.0",
-      "dateLivraison": "nan",
+      "dateLivraison": "10/08 à 08:00",
       "destinataire": "1696 IZAC FORUM LES HALLES",
       "pays": "FR",
       "dept": "75",
@@ -5181,11 +5181,11 @@
       "nbColis": "12"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "07/08",
       "recepisse": "5519159",
       "votreReference": "2017714.0",
-      "dateLivraison": "nan",
+      "dateLivraison": "10/08 à 08:00",
       "destinataire": "1748 IZAC BEAUGRENELLE",
       "pays": "FR",
       "dept": "75",
@@ -5220,11 +5220,11 @@
       "nbColis": "1"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "07/08",
       "recepisse": "5519162",
       "votreReference": "2017736.0",
-      "dateLivraison": "nan",
+      "dateLivraison": "10/08 à 08:00",
       "destinataire": "1782 IZAC CORBEIL",
       "pays": "FR",
       "dept": "91",
@@ -5246,11 +5246,11 @@
       "nbColis": "4"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "06/08",
       "recepisse": "5518547",
       "votreReference": "2017085.0",
-      "dateLivraison": "nan",
+      "dateLivraison": "07/08 à 08:00",
       "destinataire": "1010 IZAC BELLE EPINE",
       "pays": "FR",
       "dept": "94",
@@ -5532,11 +5532,11 @@
       "nbColis": "2"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "06/08",
       "recepisse": "5518569",
       "votreReference": "2017083.0",
-      "dateLivraison": "nan",
+      "dateLivraison": "07/08 à 08:00",
       "destinataire": "1779 IZAC ARCUEIL",
       "pays": "FR",
       "dept": "94",
