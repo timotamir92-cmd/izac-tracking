@@ -1,5 +1,5 @@
 {
-  "lastUpdate": "2026-08-26T05:36:54.645737",
+  "lastUpdate": "2026-08-26T11:34:15.703848",
   "periode": {
     "debut": "27/07/2026",
     "fin": "26/08/2026"
@@ -1684,11 +1684,11 @@
       "nbColis": "2"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "25/08",
       "recepisse": "5525971",
       "votreReference": "2026436.0",
-      "dateLivraison": "nan",
+      "dateLivraison": "26/08",
       "destinataire": "1045 IZAC PARINOR",
       "pays": "FR",
       "dept": "93",
@@ -1944,11 +1944,11 @@
       "nbColis": "1"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "25/08",
       "recepisse": "5525991",
       "votreReference": "2026417.0",
-      "dateLivraison": "nan",
+      "dateLivraison": "26/08",
       "destinataire": "1782 IZAC CORBEIL",
       "pays": "FR",
       "dept": "91",
