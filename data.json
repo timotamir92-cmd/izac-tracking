@@ -1,8 +1,8 @@
 {
-  "lastUpdate": "2026-08-31T17:57:34.471303",
+  "lastUpdate": "2026-09-01T09:49:31.238804",
   "periode": {
-    "debut": "01/08/2026",
-    "fin": "31/08/2026"
+    "debut": "02/08/2026",
+    "fin": "01/09/2026"
   },
   "total": 507,
   "expeditions": [
@@ -293,11 +293,11 @@
       "nbColis": "7"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "31/08",
       "recepisse": "5528464",
       "votreReference": "002030114",
-      "dateLivraison": "nan",
+      "dateLivraison": "01/09",
       "destinataire": "1779 IZAC ARCUEIL",
       "pays": "FR",
       "dept": "94",
@@ -306,11 +306,11 @@
       "nbColis": "6"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "31/08",
       "recepisse": "5528465",
       "votreReference": "002030107",
-      "dateLivraison": "nan",
+      "dateLivraison": "01/09",
       "destinataire": "1782 IZAC CORBEIL",
       "pays": "FR",
       "dept": "91",
