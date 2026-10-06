@@ -1,10 +1,10 @@
 {
-  "lastUpdate": "2026-10-05T19:34:07.438581",
+  "lastUpdate": "2026-10-06T11:51:40.525570",
   "periode": {
-    "debut": "05/09/2026",
-    "fin": "05/10/2026"
+    "debut": "06/09/2026",
+    "fin": "06/10/2026"
   },
-  "total": 525,
+  "total": 526,
   "expeditions": [
     {
       "statut": "Livre conforme",
@@ -5712,6 +5712,19 @@
       "ville": "FRANCONVILLE",
       "poids": "   92,0",
       "nbColis": "10"
+    },
+    {
+      "statut": "En cours",
+      "dateExpedition": "06/10",
+      "recepisse": "5543988",
+      "votreReference": "nan",
+      "dateLivraison": "nan",
+      "destinataire": "1748 IZAC BEAUGRENELLE",
+      "pays": "FR",
+      "dept": "75",
+      "ville": "PARIS 15",
+      "poids": "   30,0",
+      "nbColis": "6"
     },
     {
       "statut": "En cours",
