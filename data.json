@@ -1,10 +1,10 @@
 {
-  "lastUpdate": "2026-10-06T17:05:47.456628",
+  "lastUpdate": "2026-10-07T11:36:46.441597",
   "periode": {
-    "debut": "06/09/2026",
-    "fin": "06/10/2026"
+    "debut": "07/09/2026",
+    "fin": "07/10/2026"
   },
-  "total": 567,
+  "total": 566,
   "expeditions": [
     {
       "statut": "Livre conforme",
@@ -6013,11 +6013,11 @@
       "nbColis": "5"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "06/10",
       "recepisse": "2053241",
       "votreReference": "2053241.0",
-      "dateLivraison": "nan",
+      "dateLivraison": "07/10",
       "destinataire": "1696 IZAC FORUM LES HALLES",
       "pays": "FR",
       "dept": "75",
@@ -6037,19 +6037,6 @@
       "ville": "VELIZY VILLACOUBLAY",
       "poids": "    2,0",
       "nbColis": "3"
-    },
-    {
-      "statut": "En cours",
-      "dateExpedition": "06/10",
-      "recepisse": "5543988",
-      "votreReference": "nan",
-      "dateLivraison": "nan",
-      "destinataire": "1748 IZAC BEAUGRENELLE",
-      "pays": "FR",
-      "dept": "75",
-      "ville": "PARIS 15",
-      "poids": "   30,0",
-      "nbColis": "6"
     },
     {
       "statut": "En cours",
@@ -6234,11 +6221,11 @@
       "nbColis": "6"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "06/10",
       "recepisse": "102053241",
       "votreReference": "2053241.0",
-      "dateLivraison": "nan",
+      "dateLivraison": "07/10",
       "destinataire": "1696 IZAC FORUM LES HALLES",
       "pays": "FR",
       "dept": "75",
@@ -6559,11 +6546,11 @@
       "nbColis": "7"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "05/10",
       "recepisse": "2052609",
       "votreReference": "2052609.0",
-      "dateLivraison": "nan",
+      "dateLivraison": "06/10",
       "destinataire": "1696 IZAC FORUM LES HALLES",
       "pays": "FR",
       "dept": "75",
@@ -6676,11 +6663,11 @@
       "nbColis": "6"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "05/10",
       "recepisse": "102052609",
       "votreReference": "2052609.0",
-      "dateLivraison": "nan",
+      "dateLivraison": "06/10",
       "destinataire": "1696 IZAC FORUM LES HALLES",
       "pays": "FR",
       "dept": "75",
