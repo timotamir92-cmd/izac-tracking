@@ -1,10 +1,10 @@
 {
-  "lastUpdate": "2026-10-12T20:11:39.843909",
+  "lastUpdate": "2026-10-13T12:31:17.092424",
   "periode": {
-    "debut": "12/09/2026",
-    "fin": "12/10/2026"
+    "debut": "13/09/2026",
+    "fin": "13/10/2026"
   },
-  "total": 585,
+  "total": 584,
   "expeditions": [
     {
       "statut": "Livre conforme",
@@ -4089,11 +4089,11 @@
       "nbColis": "1"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "12/10",
       "recepisse": "2056128",
       "votreReference": "2056128.0",
-      "dateLivraison": "nan",
+      "dateLivraison": "13/10",
       "destinataire": "1782 IZAC CORBEIL",
       "pays": "FR",
       "dept": "91",
@@ -4570,19 +4570,6 @@
       "nbColis": "22"
     },
     {
-      "statut": "Livre conforme",
-      "dateExpedition": "12/09",
-      "recepisse": "5534583",
-      "votreReference": "nan",
-      "dateLivraison": "14/09 à 10:14",
-      "destinataire": "1028 IZAC PARIS RENNES",
-      "pays": "FR",
-      "dept": "75",
-      "ville": "PARIS 06",
-      "poids": "   10,0",
-      "nbColis": "2"
-    },
-    {
       "statut": "En cours",
       "dateExpedition": "09/10",
       "recepisse": "2055231",
@@ -4937,14 +4924,14 @@
       "statut": "En cours",
       "dateExpedition": "09/10",
       "recepisse": "5545492",
-      "votreReference": "nan",
+      "votreReference": "1.0",
       "dateLivraison": "nan",
       "destinataire": "LOGISTIQUE NC",
       "pays": "FR",
       "dept": "95",
       "ville": "LOUVRES",
-      "poids": "  200,0",
-      "nbColis": "20"
+      "poids": "  110,0",
+      "nbColis": "11"
     },
     {
       "statut": "En cours",
@@ -5298,11 +5285,11 @@
       "nbColis": "2"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "08/10",
       "recepisse": "2054784",
       "votreReference": "2054784.0",
-      "dateLivraison": "nan",
+      "dateLivraison": "09/10 à 10:00",
       "destinataire": "1489 IZAC VILLENEUVE LA GA",
       "pays": "FR",
       "dept": "92",
@@ -5493,11 +5480,11 @@
       "nbColis": "6"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "08/10",
       "recepisse": "102054784",
       "votreReference": "2054784.0",
-      "dateLivraison": "nan",
+      "dateLivraison": "09/10 à 10:00",
       "destinataire": "1489 IZAC VILLENEUVE LA GA",
       "pays": "FR",
       "dept": "92",
