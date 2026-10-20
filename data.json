@@ -1,10 +1,10 @@
 {
-  "lastUpdate": "2026-10-19T17:23:02.215044",
+  "lastUpdate": "2026-10-20T09:51:30.632573",
   "periode": {
-    "debut": "19/09/2026",
-    "fin": "19/10/2026"
+    "debut": "20/09/2026",
+    "fin": "20/10/2026"
   },
-  "total": 675,
+  "total": 676,
   "expeditions": [
     {
       "statut": "Livre conforme",
@@ -2478,6 +2478,19 @@
     },
     {
       "statut": "En cours",
+      "dateExpedition": "20/10",
+      "recepisse": "5549838",
+      "votreReference": "nan",
+      "dateLivraison": "nan",
+      "destinataire": "1104 IZAC CRETEIL",
+      "pays": "FR",
+      "dept": "94",
+      "ville": "CRETEIL",
+      "poids": "    1,0",
+      "nbColis": "1"
+    },
+    {
+      "statut": "En cours",
       "dateExpedition": "19/10",
       "recepisse": "5549127",
       "votreReference": "INVERSION",
@@ -3530,11 +3543,11 @@
       "nbColis": "3"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "15/10",
       "recepisse": "2057907",
       "votreReference": "002057907",
-      "dateLivraison": "nan",
+      "dateLivraison": "16/10 à 10:20",
       "destinataire": "1009 IZAC PARIS AUBER",
       "pays": "FR",
       "dept": "75",
@@ -3855,11 +3868,11 @@
       "nbColis": "34"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "15/10",
       "recepisse": "102057907",
       "votreReference": "002057907",
-      "dateLivraison": "nan",
+      "dateLivraison": "16/10 à 10:20",
       "destinataire": "1009 IZAC PARIS AUBER",
       "pays": "FR",
       "dept": "75",
@@ -4080,7 +4093,7 @@
       "dateExpedition": "14/10",
       "recepisse": "2057338",
       "votreReference": "002057338",
-      "dateLivraison": "15/10 à 10:00",
+      "dateLivraison": "16/10 à 10:00",
       "destinataire": "1665 IZAC PARIS GARE MONTP",
       "pays": "FR",
       "dept": "75",
@@ -4353,7 +4366,7 @@
       "dateExpedition": "14/10",
       "recepisse": "102057333",
       "votreReference": "002057333",
-      "dateLivraison": "16/10",
+      "dateLivraison": "16/10 à 10:00",
       "destinataire": "1552 IZAC VAL D'EUROPE",
       "pays": "FR",
       "dept": "77",
@@ -4600,7 +4613,7 @@
       "dateExpedition": "14/10",
       "recepisse": "202057333",
       "votreReference": "002057333",
-      "dateLivraison": "16/10",
+      "dateLivraison": "16/10 à 10:00",
       "destinataire": "1552 IZAC VAL D'EUROPE",
       "pays": "FR",
       "dept": "77",
@@ -4782,7 +4795,7 @@
       "dateExpedition": "13/10",
       "recepisse": "2056379",
       "votreReference": "002056379",
-      "dateLivraison": "14/10 à 13:00",
+      "dateLivraison": "16/10 à 10:00",
       "destinataire": "1552 IZAC VAL D'EUROPE",
       "pays": "FR",
       "dept": "77",
