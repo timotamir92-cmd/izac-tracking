@@ -1,10 +1,10 @@
 {
-  "lastUpdate": "2026-10-23T09:47:33.811932",
+  "lastUpdate": "2026-10-23T15:52:10.596568",
   "periode": {
     "debut": "23/09/2026",
     "fin": "23/10/2026"
   },
-  "total": 694,
+  "total": 704,
   "expeditions": [
     {
       "statut": "Livre conforme",
@@ -1502,6 +1502,136 @@
       "nbColis": "1"
     },
     {
+      "statut": "En cours",
+      "dateExpedition": "23/10",
+      "recepisse": "2061774",
+      "votreReference": "002061774",
+      "dateLivraison": "nan",
+      "destinataire": "1604 IZAC ROSNY",
+      "pays": "FR",
+      "dept": "93",
+      "ville": "ROSNY SOUS BOIS",
+      "poids": "    1,0",
+      "nbColis": "2"
+    },
+    {
+      "statut": "En cours",
+      "dateExpedition": "23/10",
+      "recepisse": "2061775",
+      "votreReference": "002061775",
+      "dateLivraison": "nan",
+      "destinataire": "1104 IZAC CRETEIL",
+      "pays": "FR",
+      "dept": "94",
+      "ville": "CRETEIL",
+      "poids": "    2,0",
+      "nbColis": "3"
+    },
+    {
+      "statut": "En cours",
+      "dateExpedition": "23/10",
+      "recepisse": "2061776",
+      "votreReference": "002061776",
+      "dateLivraison": "nan",
+      "destinataire": "1552 IZAC VAL D'EUROPE",
+      "pays": "FR",
+      "dept": "77",
+      "ville": "SERRIS",
+      "poids": "    2,0",
+      "nbColis": "2"
+    },
+    {
+      "statut": "En cours",
+      "dateExpedition": "23/10",
+      "recepisse": "2061777",
+      "votreReference": "002061777",
+      "dateLivraison": "nan",
+      "destinataire": "1575 IZAC LA DEFENSE",
+      "pays": "FR",
+      "dept": "92",
+      "ville": "PUTEAUX",
+      "poids": "    2,0",
+      "nbColis": "2"
+    },
+    {
+      "statut": "En cours",
+      "dateExpedition": "23/10",
+      "recepisse": "2061778",
+      "votreReference": "002061778",
+      "dateLivraison": "nan",
+      "destinataire": "1449 IZAC AEROVILLE",
+      "pays": "FR",
+      "dept": "95",
+      "ville": "ROISSY EN FRANCE",
+      "poids": "    1,0",
+      "nbColis": "2"
+    },
+    {
+      "statut": "En cours",
+      "dateExpedition": "23/10",
+      "recepisse": "2061779",
+      "votreReference": "002061779",
+      "dateLivraison": "nan",
+      "destinataire": "1352 IZAC LEVALLOISPERRET",
+      "pays": "FR",
+      "dept": "92",
+      "ville": "LEVALLOIS PERRET",
+      "poids": "    1,0",
+      "nbColis": "2"
+    },
+    {
+      "statut": "En cours",
+      "dateExpedition": "23/10",
+      "recepisse": "2061780",
+      "votreReference": "002061780",
+      "dateLivraison": "nan",
+      "destinataire": "1028 IZAC PARIS RENNES",
+      "pays": "FR",
+      "dept": "75",
+      "ville": "PARIS 06",
+      "poids": "    1,0",
+      "nbColis": "1"
+    },
+    {
+      "statut": "En cours",
+      "dateExpedition": "23/10",
+      "recepisse": "2061781",
+      "votreReference": "002061781",
+      "dateLivraison": "nan",
+      "destinataire": "1748 IZAC BEAUGRENELLE",
+      "pays": "FR",
+      "dept": "75",
+      "ville": "PARIS 15",
+      "poids": "    2,0",
+      "nbColis": "2"
+    },
+    {
+      "statut": "En cours",
+      "dateExpedition": "23/10",
+      "recepisse": "2061782",
+      "votreReference": "002061782",
+      "dateLivraison": "nan",
+      "destinataire": "1696 IZAC FORUM LES HALLES",
+      "pays": "FR",
+      "dept": "75",
+      "ville": "PARIS 01",
+      "poids": "    8,0",
+      "nbColis": "6"
+    },
+    {
+      "statut": "En cours",
+      "dateExpedition": "23/10",
+      "recepisse": "2061783",
+      "votreReference": "002061783",
+      "dateLivraison": "nan",
+      "destinataire": "1198 IZAC VELIZY VILLACOUB",
+      "pays": "FR",
+      "dept": "78",
+      "ville": "VELIZY VILLACOUBLAY",
+      "poids": "    1,0",
+      "nbColis": "1"
+    },
+    {
       "statut": "Livre conforme",
       "dateExpedition": "23/09",
       "recepisse": "5539440",
@@ -2217,11 +2347,11 @@
       "nbColis": "4"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "21/10",
       "recepisse": "5550856",
       "votreReference": "002060602",
-      "dateLivraison": "nan",
+      "dateLivraison": "22/10 à 09:30",
       "destinataire": "1198 IZAC VELIZY VILLACOUB",
       "pays": "FR",
       "dept": "78",
@@ -2568,11 +2698,11 @@
       "nbColis": "4"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "20/10",
       "recepisse": "5550303",
       "votreReference": "002059863",
-      "dateLivraison": "nan",
+      "dateLivraison": "21/10 à 10:00",
       "destinataire": "1449 IZAC AEROVILLE",
       "pays": "FR",
       "dept": "95",
@@ -2594,11 +2724,11 @@
       "nbColis": "9"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "20/10",
       "recepisse": "5550305",
       "votreReference": "002059854",
-      "dateLivraison": "nan",
+      "dateLivraison": "21/10 à 10:00",
       "destinataire": "1498 IZAC GONESSE",
       "pays": "FR",
       "dept": "95",
