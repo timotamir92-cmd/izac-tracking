@@ -1,10 +1,10 @@
 {
-  "lastUpdate": "2026-11-02T20:40:20.912326",
+  "lastUpdate": "2026-11-03T12:40:48.631338",
   "periode": {
-    "debut": "03/10/2026",
-    "fin": "02/11/2026"
+    "debut": "04/10/2026",
+    "fin": "03/11/2026"
   },
-  "total": 660,
+  "total": 661,
   "expeditions": [
     {
       "statut": "En cours",
@@ -579,11 +579,11 @@
       "nbColis": "2"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "29/10",
       "recepisse": "5553732",
       "votreReference": "002063828",
-      "dateLivraison": "nan",
+      "dateLivraison": "30/10 à 10:00",
       "destinataire": "1782 IZAC CORBEIL",
       "pays": "FR",
       "dept": "91",
@@ -774,11 +774,11 @@
       "nbColis": "10"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "28/10",
       "recepisse": "5553089",
       "votreReference": "002063105",
-      "dateLivraison": "nan",
+      "dateLivraison": "30/10 à 09:00",
       "destinataire": "1568 IZAC CARRE SENART",
       "pays": "FR",
       "dept": "77",
@@ -1437,11 +1437,11 @@
       "nbColis": "18"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "26/10",
       "recepisse": "5552275",
       "votreReference": "002061965",
-      "dateLivraison": "nan",
+      "dateLivraison": "30/10 à 09:00",
       "destinataire": "1568 IZAC CARRE SENART",
       "pays": "FR",
       "dept": "77",
@@ -8234,6 +8234,19 @@
       "ville": "PARIS 01",
       "poids": "  119,0",
       "nbColis": "19"
+    },
+    {
+      "statut": "En cours",
+      "dateExpedition": "03/11",
+      "recepisse": "5554688",
+      "votreReference": "1 COLIS LUXEMBO",
+      "dateLivraison": "nan",
+      "destinataire": "LOGISTIQUE NC-IZAC",
+      "pays": "FR",
+      "dept": "95",
+      "ville": "LOUVRES",
+      "poids": "    6,0",
+      "nbColis": "1"
     },
     {
       "statut": "En cours",
