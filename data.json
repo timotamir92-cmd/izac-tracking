@@ -1,8 +1,8 @@
 {
-  "lastUpdate": "2026-11-16T20:52:09.512529",
+  "lastUpdate": "2026-11-17T14:10:53.530394",
   "periode": {
-    "debut": "17/10/2026",
-    "fin": "16/11/2026"
+    "debut": "18/10/2026",
+    "fin": "17/11/2026"
   },
   "total": 490,
   "expeditions": [
@@ -3335,11 +3335,11 @@
       "nbColis": "3"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "13/11",
       "recepisse": "5557930",
       "votreReference": "nan",
-      "dateLivraison": "nan",
+      "dateLivraison": "16/11 à 10:00",
       "destinataire": "1352 IZAC LEVALLOISPERRET",
       "pays": "FR",
       "dept": "92",
@@ -3400,11 +3400,11 @@
       "nbColis": "10"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "13/11",
       "recepisse": "5558338",
       "votreReference": "002069592",
-      "dateLivraison": "nan",
+      "dateLivraison": "16/11 à 10:00",
       "destinataire": "1045 IZAC PARINOR",
       "pays": "FR",
       "dept": "93",
@@ -3465,11 +3465,11 @@
       "nbColis": "10"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "13/11",
       "recepisse": "5558343",
       "votreReference": "002069587",
-      "dateLivraison": "nan",
+      "dateLivraison": "16/11 à 10:00",
       "destinataire": "1352 IZAC LEVALLOISPERRET",
       "pays": "FR",
       "dept": "92",
@@ -3504,11 +3504,11 @@
       "nbColis": "2"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "13/11",
       "recepisse": "5558346",
       "votreReference": "002069581",
-      "dateLivraison": "nan",
+      "dateLivraison": "16/11 à 09:50",
       "destinataire": "1449 IZAC AEROVILLE",
       "pays": "FR",
       "dept": "95",
@@ -3517,11 +3517,11 @@
       "nbColis": "12"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "13/11",
       "recepisse": "5558347",
       "votreReference": "002069589",
-      "dateLivraison": "nan",
+      "dateLivraison": "16/11 à 11:50",
       "destinataire": "1489 IZAC VILLENEUVE LA GA",
       "pays": "FR",
       "dept": "92",
@@ -3530,11 +3530,11 @@
       "nbColis": "14"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "13/11",
       "recepisse": "5558348",
       "votreReference": "002069579",
-      "dateLivraison": "nan",
+      "dateLivraison": "16/11 à 10:00",
       "destinataire": "1498 IZAC GONESSE",
       "pays": "FR",
       "dept": "95",
@@ -3556,11 +3556,11 @@
       "nbColis": "7"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "13/11",
       "recepisse": "5558350",
       "votreReference": "002069576",
-      "dateLivraison": "nan",
+      "dateLivraison": "16/11 à 10:49",
       "destinataire": "1552 IZAC VAL D'EUROPE",
       "pays": "FR",
       "dept": "77",
@@ -3582,11 +3582,11 @@
       "nbColis": "12"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "13/11",
       "recepisse": "5558352",
       "votreReference": "002069584",
-      "dateLivraison": "nan",
+      "dateLivraison": "16/11 à 10:00",
       "destinataire": "1575 IZAC LA DEFENSE",
       "pays": "FR",
       "dept": "92",
@@ -3595,11 +3595,11 @@
       "nbColis": "13"
     },
     {
-      "statut": "En cours",
+      "statut": "Anomalie",
       "dateExpedition": "13/11",
       "recepisse": "5558353",
       "votreReference": "002069573",
-      "dateLivraison": "nan",
+      "dateLivraison": "16/11 à 10:00",
       "destinataire": "1604 IZAC ROSNY",
       "pays": "FR",
       "dept": "93",
@@ -3660,11 +3660,11 @@
       "nbColis": "17"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "13/11",
       "recepisse": "5558358",
       "votreReference": "002069594",
-      "dateLivraison": "nan",
+      "dateLivraison": "16/11 à 10:00",
       "destinataire": "1756 IZAC BOULOGNE BILLANC",
       "pays": "FR",
       "dept": "92",
@@ -3829,11 +3829,11 @@
       "nbColis": "10"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "12/11",
       "recepisse": "5557715",
       "votreReference": "002069268",
-      "dateLivraison": "nan",
+      "dateLivraison": "13/11 à 10:00",
       "destinataire": "1352 IZAC LEVALLOISPERRET",
       "pays": "FR",
       "dept": "92",
@@ -3920,11 +3920,11 @@
       "nbColis": "20"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "12/11",
       "recepisse": "5557722",
       "votreReference": "002069274",
-      "dateLivraison": "nan",
+      "dateLivraison": "13/11 à 10:00",
       "destinataire": "1568 IZAC CARRE SENART",
       "pays": "FR",
       "dept": "77",
@@ -3946,11 +3946,11 @@
       "nbColis": "21"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "12/11",
       "recepisse": "5557724",
       "votreReference": "002069250",
-      "dateLivraison": "nan",
+      "dateLivraison": "16/11 à 10:00",
       "destinataire": "1604 IZAC ROSNY",
       "pays": "FR",
       "dept": "93",
@@ -4258,11 +4258,11 @@
       "nbColis": "19"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "10/11",
       "recepisse": "5557316",
       "votreReference": "002068622",
-      "dateLivraison": "nan",
+      "dateLivraison": "12/11 à 10:00",
       "destinataire": "1568 IZAC CARRE SENART",
       "pays": "FR",
       "dept": "77",
@@ -4583,11 +4583,11 @@
       "nbColis": "19"
     },
     {
-      "statut": "En cours",
+      "statut": "Livre conforme",
       "dateExpedition": "09/11",
       "recepisse": "5556903",
       "votreReference": "002068092",
-      "dateLivraison": "nan",
+      "dateLivraison": "12/11 à 10:00",
       "destinataire": "1568 IZAC CARRE SENART",
       "pays": "FR",
       "dept": "77",
